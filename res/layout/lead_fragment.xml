@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+  <ListView
+        android:id="@+id/lead_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:columnWidth="180sp"
+        android:gravity="center"
+        android:horizontalSpacing="1sp"
+        android:numColumns="auto_fit"
+        android:paddingBottom="@dimen/Lead_Bottom"
+        android:paddingTop="@dimen/News_Bottom"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="30dip"
+        android:divider="#00000000"
+        android:scrollbars="vertical"
+         />
+</RelativeLayout>

@@ -1,0 +1,38 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="screen_height">650dip</dimen>
+    <dimen name="screen_height_video">575dip</dimen>
+    <dimen name="activity_horizontal_margin">10dp</dimen>
+    <dimen name="activity_vertical_margin">30dp</dimen>
+    <dimen name="home_GridView_Top">30dp</dimen>
+    <dimen name="home_GridView_Bottom">60dp</dimen>
+    <dimen name="home_GridView_Left">50dp</dimen>
+    <dimen name="home_GridView_Right">50dp</dimen>
+    <dimen name="News_Top">30dp</dimen>
+    <dimen name="News_Bottom">0dp</dimen>
+    <dimen name="News_Left">50dp</dimen>
+    <dimen name="News_Right">50dp</dimen>
+    <dimen name="Bottom_Hight">60sp</dimen>
+    <dimen name="Lead_Bottom">3dp</dimen>
+
+    <!-- 文字大小dimen -->
+    <dimen name="size_1">20sp</dimen>
+    <dimen name="size_2">18sp</dimen>
+    <dimen name="size_3">16sp</dimen>
+    <dimen name="size_4">14sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="actionbar_height">45dip</dimen>
+    <dimen name="actionbar_item_width">45dip</dimen>
+    <dimen name="border_radius_with_dimensions">0.7dp</dimen>
+    <dimen name="body_padding_medium">10dp</dimen>
+    <dimen name="body_padding_large">10dp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_xlarge">18sp</dimen>
+    <dimen name="speaker_image_size">36dp</dimen>
+    <dimen name="speaker_image_padding">8dp</dimen>
+    <dimen name="vendor_image_size">100dp</dimen>
+    <dimen name="actionbar_item_height">45dip</dimen>
+
+</resources>

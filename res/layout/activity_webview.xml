@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/Bottom_Hight"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bottom_backup" >
+
+        <ImageButton
+            android:id="@+id/ibtn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:src="@drawable/bottom_back" />
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/wv_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/rl_title" />
+
+</RelativeLayout>

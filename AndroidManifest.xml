@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cn.xyzx"
+    android:versionCode="10000"
+    android:versionName="1.0.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="21" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:name="com.cn.xyzx.application.XyApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="db_version"
+            android:value="1" />
+        <meta-data
+            android:name="db_name"
+            android:value="xinya.db" />
+        <meta-data
+            android:name="crash_log_path"
+            android:value="/sdcard/xinya/crash/" />
+        <meta-data
+            android:name="crash_report_ext"
+            android:value=".log" />
+        <meta-data
+            android:name="image_dir"
+            android:value="xinya/com.cn.xyzx/image" />
+        <meta-data
+            android:name="http_cache_dir"
+            android:value="xinya/com.cn.xyzx/cache" />
+        <meta-data
+            android:name="email_log_enable"
+            android:value="true" />
+        <meta-data
+            android:name="error_log_enable"
+            android:value="true" />
+        <meta-data
+            android:name="debug_log_enable"
+            android:value="true" />
+        <meta-data
+            android:name="api_root_url"
+            android:value="http://103.243.181.107/" />
+        <meta-data
+            android:name="is_developing"
+            android:value="false" />
+        <meta-data
+            android:name="appSign"
+            android:value="xyzx" />
+
+        <activity
+            android:name="com.cn.xyzx.activity.LoadingActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.cn.xyzx.activity.HomeActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.cn.xyzx.activity.InfoCenterActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="com.cn.xyzx.activity.DetailActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.cn.xyzx.activity.NewsVideoActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.cn.xyzx.activity.NavigationActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.cn.xyzx.activity.DownVideoActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.cn.xyzx.activity.ProductActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.cn.xyzx.activity.NewsActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.cn.xyzx.activity.VideoPlayerActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.cn.xyzx.activity.WebViewActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.cn.xyzx.activity.AboutActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+    </application>
+
+</manifest>

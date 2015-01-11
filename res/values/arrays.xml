@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="titles">
+        <item>企业简介</item>
+        <item>领导风采</item>
+        <item>企业文化</item>
+        <item>宣传视频</item>
+        <item>荣誉资质</item>
+        <item>社会责任</item>
+        <item>润和集团</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tablelayout_news_alltxt"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/new_backup" >
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TextView
+            android:id="@+id/tv_new_allTxt_tv1"
+            android:layout_width="465sp"
+            android:layout_height="match_parent"
+            android:layout_column="0"
+            android:paddingBottom="30sp"
+            android:paddingLeft="0sp"
+            android:paddingRight="35sp"
+            android:paddingTop="10sp"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tv_new_allTxt_tv2"
+            android:layout_width="465sp"
+            android:layout_height="match_parent"
+            android:layout_column="1"
+            android:paddingBottom="30sp"
+            android:paddingLeft="35sp"
+            android:paddingRight="0sp"
+            android:paddingTop="10sp"
+            android:textSize="24sp" />
+    </TableRow>
+
+</TableLayout>

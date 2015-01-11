@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ListView
+        android:id="@+id/navigation_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/screen_height"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/infocenter_backgroup"
+        android:divider="#00000000"
+        android:gravity="center"
+        android:horizontalSpacing="1sp"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="auto_fit"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/Bottom_Hight"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bottom_backup" >
+
+        <ImageButton
+            android:id="@+id/bt_Bottom_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="#00000000"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:src="@drawable/bottom_menu"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/bt_Bottom_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="#00000000"
+            android:paddingLeft="10sp"
+            android:paddingRight="0sp"
+            android:src="@drawable/bottom_set"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/bt_Bottom_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/bt_Bottom_refresh"
+            android:background="#00000000"
+            android:paddingLeft="0sp"
+            android:paddingRight="10sp"
+            android:src="@drawable/bottom_back" />
+
+        <ImageButton
+            android:id="@+id/bt_Bottom_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="#00000000"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:src="@drawable/bottom_refresh"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,86 @@
+<!--
+  Copyright 2011 The Android Open Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<resources>
+
+    <color name="System_01">#33B5E5</color>
+    <color name="System_02">#AA66CC</color>
+    <color name="System_03">#99CC00</color>
+    <color name="System_04">#FFBB33</color>
+    <color name="System_05">#FF4444</color>
+    <color name="System_06">#0099CC</color>
+    <color name="System_07">#9933CC</color>
+    <color name="System_08">#669900</color>
+    <color name="System_09">#FF8800</color>
+    <color name="System_10">#CC0000</color>
+    <color name="bottom_backup">#222325</color>
+    <color name="new_backup">#ececec</color>
+    <color name="new_green">#6BC30D</color>
+    <color name="new_green_info">#5b5b5b</color>
+    <color name="tab_backup">#6BC30D</color>
+    <!-- 透明 -->
+    <color name="tm">#00000000</color>
+    <color name="navigation_font">#757575</color>
+    <color name="white_font">#ffffff</color>
+    <color name="fontColor1">#969696</color>
+    <color name="new_backup_img">#ebebeb</color>
+    <color name="white">#FFFFFF</color>
+    <color name="login_bg">#F5F5F5</color>
+    <color name="dialog_bg">#F0F0F0</color>
+    <color name="red">#FF0000</color>
+    <color name="black">#000000</color>
+    <color name="main_blue">#05B0DE</color>
+    <color name="gray">#cccccc</color>
+    <color name="pop_list_pressed">#bdbdbd</color>
+    <color name="header_divider">#d6bf9e</color>
+    <color name="pop_pressed">#676767</color>
+    <!-- 橙黄 -->
+    <color name="accent_1">#ff29549f</color>
+    <color name="divider_line_color">#dfdfdf</color>
+    <color name="white_80_alpha">#ccffffff</color>
+    <!-- 灰色分割线 -->
+    <color name="gray_divider_line_color">#9c9c9c</color>
+    <!-- 联系人界面分割线 -->
+    <color name="gray_divider_line_color_contact">#b5b5b5</color>
+    <!-- 联系人，全选时的绿色 -->
+    <color name="green_all_selected_text">#49D960</color>
+    <!-- 聊天界面底部灰色 -->
+    <color name="chat_bottom_gray_bg">#e2e6e9</color>
+    <!-- 标题背景蓝色 -->
+    <color name="title_bg_blue">#2D93D9</color>
+    <color name="news_gray">#9D9D9D</color>
+    <color name="tv_bucket">#2A2A2A</color>
+    <color name="main_item_checked">#F18E62</color>
+    <color name="group_bg">#F8F8F8</color>
+    <color name="display_and_hide_pressed">#008ad1</color>
+    <color name="agree_pressed">#df0f0e</color>
+    <color name="not_agree_pressed">#2081c3</color>
+    <color name="body_text_1">#ff000000</color>
+    <color name="body_text_2">#99000000</color>
+    <color name="body_text_disabled">#66000000</color>
+    <color name="body_text_1_inverse">#ffffffff</color>
+    <color name="body_text_2_inverse">#99ffffff</color>
+    <color name="hyperlink">#ffff549f</color>
+    <color name="background_1">#ffffffff</color>
+    <color name="whats_on_separator">#4d000000</color>
+    <color name="all_track_color">#ff222222</color>
+    <color name="block_column_1">#ff0fabff</color>
+    <color name="block_column_2">#ffdf1831</color>
+    <color name="block_column_3">#ff009939</color>
+    <color name="gradient_start_gray">#4c4c4c</color>
+    <color name="gradient_end_gray">#333333</color>
+
+</resources>

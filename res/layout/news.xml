@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/new_backup"
+    tools:context="com.cn.xyzx.activity.DetailActivity" >
+
+    <LinearLayout
+        android:id="@+id/LinearLayout_news_01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/News_Left"
+        android:paddingRight="@dimen/News_Right"
+        android:paddingTop="@dimen/News_Top" >
+
+        <ImageView
+            android:layout_width="10sp"
+            android:layout_height="80sp"
+            android:background="@color/new_green" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100sp"
+            android:orientation="vertical"
+            android:paddingLeft="20sp"
+            android:paddingRight="0sp" >
+
+            <TextView
+                android:id="@+id/new_title_01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="36sp" />
+
+            <TextView
+                android:id="@+id/new_title_02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout_news_02"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LinearLayout_news_01"
+        android:layout_marginBottom="@dimen/Bottom_Hight"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/News_Left"
+        android:paddingRight="@dimen/News_Right" >
+
+        <TabHost
+            android:id="@+id/TabHost_news"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp" />
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="0" >
+                </FrameLayout>
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager_news"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom" />
+            </LinearLayout>
+        </TabHost>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/Bottom_Hight"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bottom_backup" >
+
+        <ImageButton
+            android:id="@+id/bt_Bottom_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="#00000000"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:src="@drawable/bottom_menu" />
+
+        <ImageButton
+            android:id="@+id/bt_Bottom_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/bt_Bottom_menu"
+            android:background="#00000000"
+            android:paddingLeft="10sp"
+            android:paddingRight="0sp"
+            android:src="@drawable/bottom_set"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/new_bottom_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="1 / 1"
+            android:textColor="@android:color/white"
+            android:textSize="30sp" />
+
+        <ImageButton
+            android:id="@+id/bt_Bottom_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="#00000000"
+            android:paddingLeft="0sp"
+            android:paddingRight="10sp"
+            android:src="@drawable/bottom_refresh"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/bt_Bottom_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/bt_Bottom_refresh"
+            android:background="#00000000"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:src="@drawable/bottom_back" />
+    </RelativeLayout>
+
+</RelativeLayout>
