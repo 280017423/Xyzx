@@ -10,7 +10,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.activity.InfoCenterActivity;
@@ -28,6 +27,7 @@ public class EnterpriseIntroduceFragment extends FragmentBase {
 		return fragment;
 	}
 
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		initVariables();
 		super.onCreate(savedInstanceState);

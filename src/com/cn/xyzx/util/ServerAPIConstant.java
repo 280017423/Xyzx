@@ -16,6 +16,7 @@ public class ServerAPIConstant {
 	public static final String API_GEI_LEADER_DETAIL = "api/leadStyle_msg.php?id=";
 	public static final String API_GEI_ENTERPRISE_CULTURE = "api/singlePage.php?id=1659";
 	public static final String API_GEI_ENTERPRISE_INTRODUCE = "api/singlePage.php?id=16";
+	public static final String API_GEI_SINGLE_PAGE = "api/singlePage.php?id=";
 	public static final String API_GEI_LEADER_LIST = "api/leadStyle_list.php";
 	public static final String API_GEI_VIDEO_LIST = "api/video_list.php";
 

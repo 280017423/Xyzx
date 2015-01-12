@@ -28,7 +28,6 @@ import com.cn.xyzx.req.EnterpriseReq;
 import com.cn.xyzx.util.ActionResult;
 import com.cn.xyzx.util.ServerAPIConstant;
 import com.qianjiang.framework.util.StringUtil;
-import com.qianjiang.framework.widget.LoadingUpView;
 
 public class HonorFragment extends FragmentBase implements OnItemClickListener {
 	private List<HonorModel> mLeaderList;

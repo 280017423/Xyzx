@@ -2,8 +2,6 @@ package com.cn.xyzx.req;
 
 import java.util.List;
 
-import com.cn.xyzx.bean.NewsCateModel;
-import com.cn.xyzx.bean.NewsModel;
 import com.cn.xyzx.bean.VideoModel;
 import com.cn.xyzx.db.DbDao;
 import com.cn.xyzx.util.ActionResult;
