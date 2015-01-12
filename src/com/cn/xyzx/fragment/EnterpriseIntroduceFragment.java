@@ -99,7 +99,9 @@ public class EnterpriseIntroduceFragment extends FragmentBase {
 			// 使webview可以更新进度条
 			@Override
 			public void onProgressChanged(WebView view, int newProgress) {
-				getActivity().setProgress(newProgress * 100);
+				if (isAdded()) {
+					getActivity().setProgress(newProgress * 100);
+				}
 				if (newProgress == 100) {
 					if (isAdded()) {
 						((InfoCenterActivity) getActivity()).dismissLoading();

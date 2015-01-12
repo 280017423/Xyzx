@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -21,11 +22,13 @@ public class VideoAdapter extends BaseAdapter {
 	private List<VideoModel> mProductList;
 	private ImageLoader mImageDownloader;
 	private Builder mOptions;
+	private OnClickListener mListener;
 
-	public VideoAdapter(Context context, List<VideoModel> list, ImageLoader loader) {
+	public VideoAdapter(Context context, List<VideoModel> list, ImageLoader loader, OnClickListener listener) {
 		mContext = context;
 		mProductList = list;
 		mImageDownloader = loader;
+		mListener = listener;
 		mOptions = new DisplayImageOptions.Builder().cacheInMemory().cacheOnDisc()
 				.displayer(new SimpleBitmapDisplayer());
 	}
@@ -57,6 +60,7 @@ public class VideoAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = View.inflate(mContext, R.layout.info_center_adapter, null);
 			holder.imageView = (ImageView) convertView.findViewById(R.id.info_center_img);
+			holder.mIvDownload = (ImageView) convertView.findViewById(R.id.iv_down_icon);
 			holder.textView = (TextView) convertView.findViewById(R.id.info_center_tv);
 			convertView.setTag(holder);
 		} else {
@@ -64,6 +68,13 @@ public class VideoAdapter extends BaseAdapter {
 		}
 
 		VideoModel productModel = mProductList.get(position);
+		if (1 == productModel.getHasDownload()) {
+			holder.mIvDownload.setBackgroundResource(R.drawable.icon_has_download_bg);
+		} else {
+			holder.mIvDownload.setBackgroundResource(R.drawable.icon_no_download_bg);
+		}
+		holder.mIvDownload.setTag(productModel);
+		holder.mIvDownload.setOnClickListener(mListener);
 		mImageDownloader.displayImage(productModel.getPicture(), holder.imageView,
 				mOptions.showImageForEmptyUri(R.drawable.news_default).build());
 		holder.textView.setText(productModel.getTitle());
@@ -74,5 +85,6 @@ public class VideoAdapter extends BaseAdapter {
 	final class GridViewHolder {
 		ImageView imageView;
 		TextView textView;
+		ImageView mIvDownload;
 	}
 }

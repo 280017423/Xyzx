@@ -10,6 +10,7 @@ public class VideoModel extends BaseModel {
 	private String videoUrl; // 视频路径
 	private String picture;// 缩略图
 	private String summary;// 简介
+	private int hasDownload;
 
 	public String getPicture() {
 		return null == picture ? "" : ServerAPIConstant.getApiRootUrl() + picture;
@@ -49,6 +50,14 @@ public class VideoModel extends BaseModel {
 
 	public void setVideoUrl(String videoUrl) {
 		this.videoUrl = videoUrl;
+	}
+
+	public int getHasDownload() {
+		return hasDownload;
+	}
+
+	public void setHasDownload(int hasDownload) {
+		this.hasDownload = hasDownload;
 	}
 
 }

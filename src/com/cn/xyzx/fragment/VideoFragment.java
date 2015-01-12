@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.MediaStore.Video;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -27,7 +28,7 @@ import com.cn.xyzx.req.VideoReq;
 import com.cn.xyzx.util.ActionResult;
 import com.qianjiang.framework.util.StringUtil;
 
-public class VideoFragment extends FragmentBase implements OnItemClickListener {
+public class VideoFragment extends FragmentBase implements OnItemClickListener, OnClickListener {
 	private List<VideoModel> mLeaderList;
 	private GridView mGvHonor;
 	private VideoAdapter mAdapter;
@@ -40,7 +41,7 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		mLeaderList = new ArrayList<VideoModel>();
-		mAdapter = new VideoAdapter(getActivity(), mLeaderList, mImageLoader);
+		mAdapter = new VideoAdapter(getActivity(), mLeaderList, mImageLoader, this);
 		super.onCreate(savedInstanceState);
 	}
 
@@ -94,5 +95,21 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener {
 			intent.putExtra(Video.class.getName(), model);
 			startActivity(intent);
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.iv_down_icon:
+				VideoModel model = (VideoModel) v.getTag();
+				if (null != model) {
+
+				}
+				break;
+
+			default:
+				break;
+		}
+
 	}
 }

@@ -11,7 +11,8 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:layout_marginLeft="5dip"
-        android:layout_marginTop="35dip" />
+        android:layout_marginTop="35dip"
+        android:contentDescription="@null" />
 
     <TextView
         android:id="@+id/info_center_tv"
@@ -25,5 +26,16 @@
         android:singleLine="true"
         android:textColor="@android:color/white"
         android:textSize="22sp" />
+
+    <ImageView
+        android:id="@+id/iv_down_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@null" />
 
 </RelativeLayout>
