@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#00000000"
+            android:contentDescription="@null"
             android:src="@drawable/guofu_q" />
 
         <ImageButton
@@ -26,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#00000000"
+            android:contentDescription="@null"
             android:src="@drawable/rd_q" />
 
         <ImageButton
@@ -33,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#00000000"
+            android:contentDescription="@null"
             android:src="@drawable/xyd_q" />
 
         <ImageButton
@@ -40,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#00000000"
+            android:contentDescription="@null"
             android:src="@drawable/xy_q" />
     </LinearLayout>
 
@@ -50,6 +54,7 @@
         android:layout_below="@+id/linearLayout1"
         android:layout_centerHorizontal="true"
         android:background="#00000000"
+        android:contentDescription="@null"
         android:paddingLeft="13dip"
         android:paddingRight="0px"
         android:src="@drawable/rhjt_q" />
@@ -67,6 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#00000000"
+            android:contentDescription="@null"
             android:src="@drawable/bx_q" />
 
         <ImageButton
@@ -74,6 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#00000000"
+            android:contentDescription="@null"
             android:src="@drawable/xtd_q" />
 
         <ImageButton
@@ -81,6 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#00000000"
+            android:contentDescription="@null"
             android:src="@drawable/bly_q" />
 
         <ImageButton
@@ -88,6 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#00000000"
+            android:contentDescription="@null"
             android:src="@drawable/tys_q" />
     </LinearLayout>
 

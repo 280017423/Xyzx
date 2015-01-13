@@ -81,9 +81,6 @@ public class HomeActivity extends ActivityBase implements OnItemClickListener, O
 				break;
 			// 学习中心
 			case 3:
-				infoCenter.setData(Uri.parse("http://www.sinya99.com"));
-				infoCenter.setClass(this, WebViewActivity.class);
-				startActivity(infoCenter);
 				break;
 			// 交流中心
 			case 4:
@@ -94,10 +91,9 @@ public class HomeActivity extends ActivityBase implements OnItemClickListener, O
 				break;
 			// 我的商务
 			case 5:
-				bundle.putInt("parent_id", 3);
-				infoCenter.putExtras(bundle);
-				infoCenter.setClass(this, InfoCenterActivity.class);
-				this.startActivity(infoCenter);
+				infoCenter.setData(Uri.parse("http://www.sinya99.com"));
+				infoCenter.setClass(this, WebViewActivity.class);
+				startActivity(infoCenter);
 				break;
 
 		}

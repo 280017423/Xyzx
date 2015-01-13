@@ -15,7 +15,15 @@ import com.cn.xyzx.activity.WebViewActivity;
 import com.cn.xyzx.util.ServerAPIConstant;
 
 public class RunHeFragment extends Fragment implements OnClickListener {
-	ImageButton img_bt1, img_bt2, img_bt3, img_bt4, img_bt5, img_bt6, img_bt7, img_bt8, img_bt9;
+	private ImageButton mIbtn1;
+	private ImageButton mIbtn2;
+	private ImageButton mIbtn3;
+	private ImageButton mIbtn4;
+	private ImageButton mIbtn5;
+	private ImageButton mIbtn6;
+	private ImageButton mIbtn7;
+	private ImageButton mIbtn8;
+	private ImageButton mIbtn9;
 
 	public static final RunHeFragment newInstance(int note_id) {
 		RunHeFragment fragment = new RunHeFragment();
@@ -25,33 +33,31 @@ public class RunHeFragment extends Fragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.news_runhe_fragment, container, false);
-		img_bt1 = (ImageButton) view.findViewById(R.id.img_bt1);
-		img_bt2 = (ImageButton) view.findViewById(R.id.img_bt2);
-		img_bt3 = (ImageButton) view.findViewById(R.id.img_bt3);
-		img_bt4 = (ImageButton) view.findViewById(R.id.img_bt4);
-		img_bt5 = (ImageButton) view.findViewById(R.id.img_bt5);
-		img_bt6 = (ImageButton) view.findViewById(R.id.img_bt6);
-		img_bt7 = (ImageButton) view.findViewById(R.id.img_bt7);
-		img_bt8 = (ImageButton) view.findViewById(R.id.img_bt8);
-		img_bt9 = (ImageButton) view.findViewById(R.id.img_bt9);
+		mIbtn1 = (ImageButton) view.findViewById(R.id.img_bt1);
+		mIbtn2 = (ImageButton) view.findViewById(R.id.img_bt2);
+		mIbtn3 = (ImageButton) view.findViewById(R.id.img_bt3);
+		mIbtn4 = (ImageButton) view.findViewById(R.id.img_bt4);
+		mIbtn5 = (ImageButton) view.findViewById(R.id.img_bt5);
+		mIbtn6 = (ImageButton) view.findViewById(R.id.img_bt6);
+		mIbtn7 = (ImageButton) view.findViewById(R.id.img_bt7);
+		mIbtn8 = (ImageButton) view.findViewById(R.id.img_bt8);
+		mIbtn9 = (ImageButton) view.findViewById(R.id.img_bt9);
 
-		img_bt1.setOnClickListener(this);
-		img_bt2.setOnClickListener(this);
-		img_bt3.setOnClickListener(this);
-		img_bt4.setOnClickListener(this);
-		img_bt5.setOnClickListener(this);
-		img_bt6.setOnClickListener(this);
-		img_bt7.setOnClickListener(this);
-		img_bt8.setOnClickListener(this);
-		img_bt9.setOnClickListener(this);
-
+		mIbtn1.setOnClickListener(this);
+		mIbtn2.setOnClickListener(this);
+		mIbtn3.setOnClickListener(this);
+		mIbtn4.setOnClickListener(this);
+		mIbtn5.setOnClickListener(this);
+		mIbtn6.setOnClickListener(this);
+		mIbtn7.setOnClickListener(this);
+		mIbtn8.setOnClickListener(this);
+		mIbtn9.setOnClickListener(this);
 		return view;
 	}
 
 	@Override
 	public void onClick(View view) {
 		Intent intent = new Intent(getActivity(), WebViewActivity.class);
-
 		switch (view.getId()) {
 			case R.id.img_bt1:
 				intent.setData(Uri.parse(ServerAPIConstant.getApiRootUrl() + ServerAPIConstant.API_GEI_SINGLE_PAGE
