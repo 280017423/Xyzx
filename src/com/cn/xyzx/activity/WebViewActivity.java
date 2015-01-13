@@ -112,7 +112,6 @@ public class WebViewActivity extends ActivityBase implements OnClickListener {
 				}
 			}
 		});
-		mWebview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 	}
 
 	@Override

@@ -102,8 +102,12 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 		switch (v.getId()) {
 			case R.id.iv_down_icon:
 				VideoModel model = (VideoModel) v.getTag();
-				if (null != model) {
-
+				if (null == model || StringUtil.isNullOrEmpty(model.getFineName())
+						|| StringUtil.isNullOrEmpty(model.getVideoUrl())) {
+					return;
+				}
+				if (isAdded()) {
+					((InfoCenterActivity) getActivity()).startDownload(model.getFineName(), model.getVideoUrl());
 				}
 				break;
 

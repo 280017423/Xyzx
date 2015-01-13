@@ -3,20 +3,28 @@ package com.cn.xyzx.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.adapter.InfoFragmentAdapter;
+import com.cn.xyzx.download.DownloadService;
+import com.cn.xyzx.download.DownloadService.PunchBinder;
 import com.cn.xyzx.fragment.EnterpriseIntroduceFragment;
 import com.cn.xyzx.fragment.HonorFragment;
 import com.cn.xyzx.fragment.LeadFragment;
-import com.cn.xyzx.fragment.RunHeFragment;
 import com.cn.xyzx.fragment.ResponsibilityFragment;
+import com.cn.xyzx.fragment.RunHeFragment;
 import com.cn.xyzx.fragment.VideoFragment;
 import com.cn.xyzx.util.ServerAPIConstant;
 import com.cn.xyzx.widget.LineTabIndicator;
@@ -27,11 +35,26 @@ public class InfoCenterActivity extends FragmentActivity implements OnClickListe
 	private LineTabIndicator mLineTabIndicator;
 	private InfoFragmentAdapter mPageAdapter;
 	private LoadingUpView mLoadingUpView;
+	private DownloadService mService;
+	private ServiceConnection mConnection = new ServiceConnection() {
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			mService = null;
+		}
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			PunchBinder binder = (PunchBinder) service;
+			mService = binder.getService();
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_center);
+		bindPunchService();
 		initVariables();
 		initView();
 		initFragments();
@@ -83,6 +106,9 @@ public class InfoCenterActivity extends FragmentActivity implements OnClickListe
 			case R.id.bt_Bottom_back:
 				finish();
 				break;
+			case R.id.bt_download:
+				startActivity(new Intent(InfoCenterActivity.this, LocalDownActivity.class));
+				break;
 			default:
 				break;
 		}
@@ -98,6 +124,30 @@ public class InfoCenterActivity extends FragmentActivity implements OnClickListe
 		if (null != mLoadingUpView && mLoadingUpView.isShowing()) {
 			mLoadingUpView.dismiss();
 		}
+	}
+
+	protected void bindPunchService() {
+		Intent mIntent = new Intent(this, DownloadService.class);
+		bindService(mIntent, mConnection, Context.BIND_AUTO_CREATE);
+	}
+
+	protected void unbindPunchService() {
+		try {
+			unbindService(mConnection);
+			Log.d("aaa", "unbindPunchService");
+		} catch (IllegalArgumentException e) {
+			Log.d("aaa", "Service wasn't bound!");
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		unbindPunchService();
+		super.onDestroy();
+	}
+
+	public void startDownload(final String fileName, final String downPath) {
+		mService.startDownload(fileName, downPath);
 	}
 
 }

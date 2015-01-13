@@ -11,6 +11,18 @@
         android:layout_height="@dimen/Bottom_Hight"
         android:layout_alignParentBottom="true"
         android:background="@color/bottom_backup" >
+        
+         <ImageButton
+            android:id="@+id/bt_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="#00000000"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:src="@drawable/bottom_down" />
 
         <ImageButton
             android:id="@+id/bt_Bottom_back"

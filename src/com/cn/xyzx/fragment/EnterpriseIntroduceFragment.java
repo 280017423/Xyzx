@@ -109,6 +109,5 @@ public class EnterpriseIntroduceFragment extends FragmentBase {
 				}
 			}
 		});
-		mWebview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 	}
 }
