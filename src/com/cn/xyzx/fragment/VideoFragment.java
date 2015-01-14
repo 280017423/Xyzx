@@ -24,10 +24,13 @@ import com.cn.xyzx.bean.VideoModel;
 import com.cn.xyzx.db.DbDao;
 import com.cn.xyzx.req.VideoReq;
 import com.cn.xyzx.util.ActionResult;
+import com.qianjiang.framework.app.QJActivityBase.ActionListener;
 import com.qianjiang.framework.util.NetUtil;
 import com.qianjiang.framework.util.StringUtil;
+import com.qianjiang.framework.util.UIUtil;
 
 public class VideoFragment extends FragmentBase implements OnItemClickListener, OnClickListener {
+
 	private List<VideoModel> mLeaderList;
 	private GridView mGvHonor;
 	private VideoAdapter mAdapter;
@@ -77,7 +80,6 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 			if (isAdded()) {
 				((InfoCenterActivity) getActivity()).dismissLoading();
 			}
-
 		}
 
 		@Override
@@ -97,29 +99,35 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 	}
 
 	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.iv_down_icon:
-				if (!isAdded()) {
-					return;
+	public void onClick(final View v) {
+		UIUtil.limitReClick(VideoFragment.class.getName(), new ActionListener() {
+
+			@Override
+			public void doAction() {
+				switch (v.getId()) {
+					case R.id.iv_down_icon:
+						if (!isAdded()) {
+							return;
+						}
+						if (!Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+							toast(getActivity().getString(R.string.no_sd_card));
+							return;
+						}
+						if (!NetUtil.isNetworkAvailable()) {
+							toast(getActivity().getString(R.string.network_is_not_available));
+							return;
+						}
+						VideoModel model = (VideoModel) v.getTag();
+						if (null == model || StringUtil.isNullOrEmpty(model.getFileName())
+								|| StringUtil.isNullOrEmpty(model.getVideoUrl())) {
+							return;
+						}
+						((InfoCenterActivity) getActivity()).startDownload(model.getFileName(), model.getVideoUrl());
+						break;
+					default:
+						break;
 				}
-				if (!Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
-					toast(getActivity().getString(R.string.no_sd_card));
-					return;
-				}
-				if (!NetUtil.isNetworkAvailable()) {
-					toast(getActivity().getString(R.string.network_is_not_available));
-					return;
-				}
-				VideoModel model = (VideoModel) v.getTag();
-				if (null == model || StringUtil.isNullOrEmpty(model.getFineName())
-						|| StringUtil.isNullOrEmpty(model.getVideoUrl())) {
-					return;
-				}
-				((InfoCenterActivity) getActivity()).startDownload(model.getFineName(), model.getVideoUrl());
-				break;
-			default:
-				break;
-		}
+			}
+		});
 	}
 }

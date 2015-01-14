@@ -10,5 +10,10 @@
     <string name="btn_txt_no">否</string>
     <string name="btn_txt_yes">是</string>
     <string name="no_sd_card">没有检测到SD卡</string>
+    <string name="toast_error_url">播放出错了，请检查网络或者视频是否存在</string>
+    <string name="video_loading_title">奋力加载中，请稍后...</string>
+    <string name="local_video_error">本地视频异常，请先下载完成</string>
+    <string name="local_no_video_info">你还没有缓存任何视频</string>
+    <string name="video_has_download">该视频已经下载</string>
 
 </resources>

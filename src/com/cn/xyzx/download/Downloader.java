@@ -77,6 +77,9 @@ public class Downloader {
 	public LoadInfoModel getDownloaderInfors() {
 		if (isFirst(downPath)) {
 			init();// 第1次下载要进行初始化
+			if (fileSize <= 0) {
+				return null;
+			}
 			range = this.fileSize / this.threadCount;// 设置每个线程应该下载的长度
 			System.out.println("range is:" + range);
 			infos = new ArrayList<DownloadInfoModel>();// List<DownloadInfoModel>infos
@@ -86,15 +89,11 @@ public class Downloader {
 				// startPos是每条线程数乘以每条线程应该下载的长度,第0条,从0开始
 				// endPos要减去1Byte是因为,不减1byte的地方是下一个线程开始的位置
 				DownloadInfoModel info = new DownloadInfoModel(i, i * range, (i + 1) * range - 1, 0, downPath);
-				System.out.println("set threaid：" + info.getThreadId() + "startPos:" + info.getStartPos() + "endPos:"
-						+ info.getEndPos() + "CompeleteSize:" + info.getCompeleteSize() + "url:" + info.getUrl());
 				infos.add(info);// 把每条线程的信息加入到infos这个线程信息集合器里
 			}
 			// 这里加入最后1个线程的信息,只所以单独拿出来是因为最后一条线程下载的结束位置应该为fileSize
 			DownloadInfoModel info = new DownloadInfoModel(
 					this.threadCount - 1, (this.threadCount - 1) * range, this.fileSize, 0, downPath);
-			System.out.println("set threaid：" + info.getThreadId() + "startPos:" + info.getStartPos() + "endPos:"
-					+ info.getEndPos() + "CompeleteSize:" + info.getCompeleteSize() + "url:" + info.getUrl());
 			infos.add(info);
 			// 将这个infos加入到数据库,表面ListView上的一个item已经初始化，已经不是第1次下载了
 			dao.saveInfos(infos, this.context);
@@ -127,8 +126,9 @@ public class Downloader {
 			// 如果http返回的代码是200或者206则为连接成功
 			if (conn.getResponseCode() == 200 || conn.getResponseCode() == 206) {
 				fileSize = conn.getContentLength();// 得到文件的大小
-				if (fileSize <= 0)
+				if (fileSize <= 0) {
 					Toast.makeText(this.context, "网络故障,无法获取文件大小.", Toast.LENGTH_SHORT).show();
+				}
 				File dir = new File(savePath);
 				// 如果文件不存在,则创建一个指定的文件,这里可以扩展一下,如果文件已经存在,弹出对话框提醒用户是否覆盖
 				if (!dir.exists()) {
@@ -141,6 +141,8 @@ public class Downloader {
 				randomFile.setLength(fileSize);// 设置保存文件的大小
 				randomFile.close();
 				conn.disconnect();
+			} else {
+				Toast.makeText(this.context, "网络故障,无法获取文件大小.", Toast.LENGTH_SHORT).show();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
-<ListView
-	android:id="@+id/listview"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:fastScrollEnabled="true"
-/>
-</LinearLayout>
+    android:background="@drawable/infocenter_backgroup" >
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:cacheColorHint="@android:color/transparent"
+        android:clickable="true"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0.7dp"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="true"
+        android:listSelector="@android:color/transparent"
+        android:scrollbars="none" />
+
+    <TextView
+        android:id="@+id/tv_empty_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/local_no_video_info"
+        android:textColor="#05B0DE"
+        android:textSize="@dimen/size_1"
+        android:visibility="gone" />
+
+</RelativeLayout>

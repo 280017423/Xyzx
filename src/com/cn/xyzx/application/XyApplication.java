@@ -1,10 +1,15 @@
 package com.cn.xyzx.application;
 
+import android.content.pm.PackageManager.NameNotFoundException;
+
 import com.cn.xyzx.util.DBUtil;
 import com.qianjiang.framework.app.QJApplicationBase;
 import com.qianjiang.framework.imageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.qianjiang.framework.imageloader.core.ImageLoader;
 import com.qianjiang.framework.imageloader.core.ImageLoaderConfiguration;
+import com.qianjiang.framework.util.PackageUtil;
+import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.bugly.crashreport.CrashReport.UserStrategy;
 
 public class XyApplication extends QJApplicationBase {
 	public static final int MEMORY_CACHE_SIZE = 1500000;
@@ -15,6 +20,7 @@ public class XyApplication extends QJApplicationBase {
 		super.onCreate();
 		CONTEXT = this;
 		initImageLoader();
+		initCrashReport();
 		// 打开数据库
 		new Thread(new Runnable() {
 			@Override
@@ -23,6 +29,18 @@ public class XyApplication extends QJApplicationBase {
 
 			}
 		}).start();
+	}
+
+	private void initCrashReport() {
+		UserStrategy strategy = new UserStrategy(getApplicationContext());
+		strategy.setAppChannel("");
+		try {
+			strategy.setAppVersion(PackageUtil.getVersionName());
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		strategy.setAppReportDelay(5000); // 设置SDK处理延时，毫秒
+		CrashReport.initCrashReport(getApplicationContext(), "900001644", false, strategy);
 	}
 
 	/**

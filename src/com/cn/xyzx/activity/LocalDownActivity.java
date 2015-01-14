@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.adapter.LocalDownLoadAdapter;
@@ -35,6 +36,7 @@ public class LocalDownActivity extends Activity {
 	private LocalDownLoadAdapter mLocalDownLoadAdapter;// 自定义adapter
 	private UpdateReceiver mUpdateReceiver;// 广播接收器
 	private DownloadService mService;
+	private TextView mTvEmptyContent;
 	private ServiceConnection mConnection = new ServiceConnection() {
 
 		@Override
@@ -71,13 +73,27 @@ public class LocalDownActivity extends Activity {
 		mFileStateModels.clear();
 		mFileStateModels.addAll(mDownLoadDao.getFileState());
 		mLocalDownLoadAdapter.notifyDataSetChanged();
-
+		if (null == mFileStateModels || mFileStateModels.isEmpty()) {
+			mTvEmptyContent.setVisibility(View.VISIBLE);
+			mLvDownload.setVisibility(View.GONE);
+		} else {
+			mTvEmptyContent.setVisibility(View.GONE);
+			mLvDownload.setVisibility(View.VISIBLE);
+		}
+		for (int i = 0; i < mFileStateModels.size(); i++) {
+			FileStateModel fileState = mFileStateModels.get(i);
+			if (null == fileState || StringUtil.isNullOrEmpty(fileState.getMusicName())
+					|| StringUtil.isNullOrEmpty(fileState.getUrl())) {
+				return;
+			}
+			if (null != mService) {
+				mService.reStartDownload(fileState.getMusicName(), fileState.getUrl());
+			}
+		}
 	}
 
-	/**
-	 * 初始化UI
-	 * **/
 	private void initViews() {
+		mTvEmptyContent = (TextView) findViewById(R.id.tv_empty_content);
 		mLvDownload = (ListView) this.findViewById(R.id.listview);
 		mLocalDownLoadAdapter = new LocalDownLoadAdapter(this, mFileStateModels, mDownLoadDao, new OnClickListener() {
 
@@ -86,6 +102,13 @@ public class LocalDownActivity extends Activity {
 				switch (v.getId()) {
 					case R.id.btn_local_delete:
 						mService.deleteData((String) v.getTag());
+						if (null == mFileStateModels || mFileStateModels.isEmpty()) {
+							mTvEmptyContent.setVisibility(View.VISIBLE);
+							mLvDownload.setVisibility(View.GONE);
+						} else {
+							mTvEmptyContent.setVisibility(View.GONE);
+							mLvDownload.setVisibility(View.VISIBLE);
+						}
 						break;
 					case R.id.btn_start_pause_download:
 						break;

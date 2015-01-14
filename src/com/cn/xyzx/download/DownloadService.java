@@ -12,6 +12,7 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.cn.xyzx.R;
 import com.cn.xyzx.bean.FileStateModel;
 import com.cn.xyzx.bean.LoadInfoModel;
 import com.cn.xyzx.util.ServerAPIConstant;
@@ -23,7 +24,7 @@ public class DownloadService extends Service {
 	// 存放每个下载文件的总长度
 	private Map<String, Integer> mFileSizes = new HashMap<String, Integer>();
 	private Downloader mDownloader;
-	public DownLoadDao mDownloadDao;
+	private DownLoadDao mDownloadDao;
 	private IBinder mBinder = new PunchBinder();
 	private Handler mHandler = new Handler() {
 
@@ -86,8 +87,8 @@ public class DownloadService extends Service {
 
 	public void startDownload(final String musicName, final String downPath) {
 		// 先从数据库中判断，这个文件是否已经在下载列表了
-		if (!mDownloadDao.isHasFile(musicName)) {
-			Toast.makeText(getApplicationContext(), "文件已经存在！", Toast.LENGTH_SHORT).show();
+		if (mDownloadDao.hasFile(musicName)) {
+			Toast.makeText(getApplicationContext(), R.string.video_has_download, Toast.LENGTH_SHORT).show();
 			return;
 		}
 		String savePath = AppConstant.NetworkConstant.savePath;// 保存地址
@@ -133,8 +134,10 @@ public class DownloadService extends Service {
 			@Override
 			public void run() {
 				LoadInfoModel loadInfo = mDownloader.getDownloaderInfors();
-				mCompleteSizes.put(downPath, loadInfo.getComplete());
-				mDownloader.download();
+				if (null != loadInfo) {
+					mCompleteSizes.put(downPath, loadInfo.getComplete());
+					mDownloader.download();
+				}
 			}
 		}).start();
 	}

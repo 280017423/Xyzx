@@ -137,9 +137,9 @@ public class DownLoadDao {
 	}
 
 	/**
-	 * 如果不存在则返回true
+	 * 如果存在则返回true
 	 * **/
-	public boolean isHasFile(String musicName) {
+	public boolean hasFile(String musicName) {
 		SQLiteDatabase database = dbHelper.getReadableDatabase();
 		String sql = "select count(*)  from localdown_info where music_name=?";
 		Cursor cursor = database.rawQuery(sql, new String[] { musicName });
@@ -148,7 +148,7 @@ public class DownLoadDao {
 		int count = cursor.getInt(0);
 		cursor.close();
 		database.close();
-		return count == 0;
+		return count != 0;
 	}
 
 	/**

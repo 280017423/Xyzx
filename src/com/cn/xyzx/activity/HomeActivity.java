@@ -30,7 +30,6 @@ public class HomeActivity extends ActivityBase implements OnItemClickListener, O
 		setContentView(R.layout.activity_home);
 		initVariables();
 		initViews();
-
 	}
 
 	private void initVariables() {
@@ -48,7 +47,8 @@ public class HomeActivity extends ActivityBase implements OnItemClickListener, O
 			lst_ImageItem.add(map);
 		}
 		mAdapter = new SimpleAdapter(
-				this, lst_ImageItem, R.layout.view_home_item, new String[] { "ItemImage" }, new int[] { R.id.ItemImage });
+				this, lst_ImageItem, R.layout.view_home_item, new String[] { "ItemImage" },
+				new int[] { R.id.ItemImage });
 	}
 
 	private void initViews() {

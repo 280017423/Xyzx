@@ -10,27 +10,24 @@ import android.view.Gravity;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.bean.VideoModel;
+import com.cn.xyzx.download.AppConstant.NetworkConstant;
+import com.cn.xyzx.download.DownLoadDao;
 import com.qianjiang.framework.util.EvtLog;
 import com.qianjiang.framework.util.StringUtil;
 import com.qianjiang.framework.widget.LoadingUpView;
 
 public class VideoPlayerActivity extends ActivityBase implements OnPreparedListener, OnErrorListener {
 
-	private static final String TOAST_ERROR_URL = "播放出错了，请检查网络或者视频是否存在";
-	private static final String DIALOG_TITILE = "奋力加载中，请稍后...";
-
-	private MediaController mc;
-	private LinearLayout llMain;
-	private LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-
-	private VideoView videoView;
+	private MediaController mMediaController;
+	private LinearLayout mLlVideoLayout;
+	private VideoView mVideoView;
 	private VideoModel mVideoModel;
 	private LoadingUpView mLoadingUpView;
+	private DownLoadDao mDownloadDao;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,51 +41,54 @@ public class VideoPlayerActivity extends ActivityBase implements OnPreparedListe
 		mLoadingUpView = new LoadingUpView(this);
 		mVideoModel = (VideoModel) getIntent().getSerializableExtra(Video.class.getName());
 		if (null == mVideoModel || StringUtil.isNullOrEmpty(mVideoModel.getVideoUrl())) {
-			Toast.makeText(getApplicationContext(), TOAST_ERROR_URL, Toast.LENGTH_LONG).show();
+			toast(getString(R.string.toast_error_url));
 			finish();
 		}
-		mLoadingUpView.showPopup(DIALOG_TITILE);
+		mDownloadDao = new DownLoadDao(this);
+		mLoadingUpView.showPopup(getString(R.string.video_loading_title));
 		EvtLog.d("aaa", mVideoModel.getVideoUrl());
 	}
 
 	@Override
 	public void onPrepared(MediaPlayer mp) {
 		mLoadingUpView.dismiss();
-		videoView.start();
+		mVideoView.start();
 	}
 
 	@Override
 	public boolean onError(MediaPlayer mp, int what, int extra) {
-		Toast.makeText(getApplicationContext(), TOAST_ERROR_URL, Toast.LENGTH_LONG).show();
+		if (mDownloadDao.hasFile(mVideoModel.getFileName())) {
+			toast(getString(R.string.local_video_error));
+		} else {
+			toast(getString(R.string.toast_error_url));
+		}
 		mLoadingUpView.dismiss();
 		finish();
-
 		return true;
 	}
 
 	private void initView() {
+		mVideoView = new VideoView(this);
+		if (mDownloadDao.hasFile(mVideoModel.getFileName())) {
+			mVideoView.setVideoURI(Uri.parse(NetworkConstant.savePath + mVideoModel.getFileName()));
+		} else {
+			mVideoView.setVideoURI(Uri.parse(mVideoModel.getVideoUrl()));
+		}
+		mVideoView.requestFocus();
+		mVideoView.setOnPreparedListener(this);
+		mVideoView.setOnErrorListener(this);
 
-		videoView = new VideoView(this);
-		// videoView.setVideoURI(Uri.parse(NetworkConstant.savePath +
-		// mVideoModel.getFineName()));
-		videoView.setVideoURI(Uri.parse(mVideoModel.getVideoUrl()));
-		videoView.requestFocus();
-		videoView.setOnPreparedListener(this);
-		videoView.setOnErrorListener(this);
+		mMediaController = new MediaController(this);
+		mMediaController.setAnchorView(mVideoView);
+		mMediaController.setKeepScreenOn(true);
 
-		mc = new MediaController(this);
-		mc.setAnchorView(videoView);
-		mc.setKeepScreenOn(true);
+		mVideoView.setMediaController(mMediaController);
 
-		videoView.setMediaController(mc);
-
-		llMain = new LinearLayout(this);
-		llMain.setGravity(Gravity.CENTER_VERTICAL);
-		llMain.setOrientation(LinearLayout.VERTICAL);
-		llMain.setLayoutParams(params);
-
-		llMain.addView(videoView, params);
-		setContentView(llMain);
+		mLlVideoLayout = new LinearLayout(this);
+		mLlVideoLayout.setGravity(Gravity.CENTER);
+		mLlVideoLayout.setOrientation(LinearLayout.VERTICAL);
+		mLlVideoLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		mLlVideoLayout.addView(mVideoView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		setContentView(mLlVideoLayout);
 	}
-
 }

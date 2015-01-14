@@ -10,7 +10,7 @@ public class VideoModel extends BaseModel {
 	private String videoUrl; // 视频路径
 	private String picture;// 缩略图
 	private String summary;// 简介
-	private String fineName;// 简介
+	private String fileName;// 简介
 	private int hasDownload;
 
 	public String getPicture() {
@@ -61,12 +61,12 @@ public class VideoModel extends BaseModel {
 		this.hasDownload = hasDownload;
 	}
 
-	public String getFineName() {
-		return fineName;
+	public String getFileName() {
+		return fileName;
 	}
 
-	public void setFineName(String fineName) {
-		this.fineName = fineName;
+	public void setFineName(String fileName) {
+		this.fileName = fileName;
 	}
 
 }
