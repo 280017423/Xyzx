@@ -22,7 +22,6 @@ import android.widget.ListView;
 import com.cn.xyzx.R;
 import com.cn.xyzx.adapter.LocalDownLoadAdapter;
 import com.cn.xyzx.bean.FileStateModel;
-import com.cn.xyzx.bean.VideoModel;
 import com.cn.xyzx.download.DownLoadDao;
 import com.cn.xyzx.download.DownloadService;
 import com.cn.xyzx.download.DownloadService.PunchBinder;

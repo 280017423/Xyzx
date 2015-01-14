@@ -57,7 +57,7 @@ public class LeadListAdapter extends BaseAdapter {
 		GridViewHolder holder = new GridViewHolder();
 		LeaderModel leaderModel = mLeaderList.get(position);
 		if (convertView == null) {
-			convertView = View.inflate(mContext, R.layout.lead_adapter, null);
+			convertView = View.inflate(mContext, R.layout.view_leader_item, null);
 
 			holder.mIvLeader = (ImageView) convertView.findViewById(R.id.lead_img);
 			holder.mTvSummary = (TextView) convertView.findViewById(R.id.lead_tv);

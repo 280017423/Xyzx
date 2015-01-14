@@ -43,7 +43,7 @@ public class ProductFragment extends FragmentBase implements OnItemClickListener
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View mView = inflater.inflate(R.layout.info_fragment, container, false);
+		View mView = inflater.inflate(R.layout.fragment_info, container, false);
 		mGvProduct = (GridView) mView.findViewById(R.id.info_gridView);
 		mAdapter = new ProductAdapter(getActivity(), mProductModels, mImageLoader);
 		mGvProduct.setNumColumns(3);

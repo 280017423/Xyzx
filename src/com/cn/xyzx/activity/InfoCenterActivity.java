@@ -53,7 +53,7 @@ public class InfoCenterActivity extends FragmentActivity implements OnClickListe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.info_center);
+		setContentView(R.layout.activity_info_center);
 		bindPunchService();
 		initVariables();
 		initView();

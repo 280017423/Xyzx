@@ -53,7 +53,7 @@ public class HonorFragment extends FragmentBase implements OnItemClickListener {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View mView = inflater.inflate(R.layout.info_fragment, container, false);
+		View mView = inflater.inflate(R.layout.fragment_info, container, false);
 		mGvHonor = (GridView) mView.findViewById(R.id.info_gridView);
 		mGvHonor.setNumColumns(3);
 		mGvHonor.setAdapter(mAdapter);

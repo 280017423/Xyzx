@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.cn.xyzx.fragment;
 
 import java.util.ArrayList;
@@ -9,6 +6,7 @@ import java.util.List;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore.Video;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +24,7 @@ import com.cn.xyzx.bean.VideoModel;
 import com.cn.xyzx.db.DbDao;
 import com.cn.xyzx.req.VideoReq;
 import com.cn.xyzx.util.ActionResult;
+import com.qianjiang.framework.util.NetUtil;
 import com.qianjiang.framework.util.StringUtil;
 
 public class VideoFragment extends FragmentBase implements OnItemClickListener, OnClickListener {
@@ -47,7 +46,7 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View mView = inflater.inflate(R.layout.info_fragment, container, false);
+		View mView = inflater.inflate(R.layout.fragment_info, container, false);
 		mGvHonor = (GridView) mView.findViewById(R.id.info_gridView);
 		mGvHonor.setNumColumns(3);
 		mGvHonor.setAdapter(mAdapter);
@@ -101,19 +100,26 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.iv_down_icon:
+				if (!isAdded()) {
+					return;
+				}
+				if (!Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+					toast(getActivity().getString(R.string.no_sd_card));
+					return;
+				}
+				if (!NetUtil.isNetworkAvailable()) {
+					toast(getActivity().getString(R.string.network_is_not_available));
+					return;
+				}
 				VideoModel model = (VideoModel) v.getTag();
 				if (null == model || StringUtil.isNullOrEmpty(model.getFineName())
 						|| StringUtil.isNullOrEmpty(model.getVideoUrl())) {
 					return;
 				}
-				if (isAdded()) {
-					((InfoCenterActivity) getActivity()).startDownload(model.getFineName(), model.getVideoUrl());
-				}
+				((InfoCenterActivity) getActivity()).startDownload(model.getFineName(), model.getVideoUrl());
 				break;
-
 			default:
 				break;
 		}
-
 	}
 }

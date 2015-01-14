@@ -55,7 +55,7 @@ public class NewsAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		GridViewHolder holder = new GridViewHolder();
 		if (convertView == null) {
-			convertView = View.inflate(mContext, R.layout.news_list_adapter, null);
+			convertView = View.inflate(mContext, R.layout.view_news_item, null);
 			holder.mImageView = (ImageView) convertView.findViewById(R.id.news_list_img);
 			holder.mTvTitle = (TextView) convertView.findViewById(R.id.news_list_tv_title);
 			holder.mTvSummary = (TextView) convertView.findViewById(R.id.news_list_tv_context);

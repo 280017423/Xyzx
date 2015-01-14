@@ -53,7 +53,7 @@ public class LeadFragment extends FragmentBase implements OnItemClickListener {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View mView = inflater.inflate(R.layout.lead_fragment, container, false);
+		View mView = inflater.inflate(R.layout.fragment_lead, container, false);
 		mLvLeader = (ListView) mView.findViewById(R.id.lead_listview);
 		mLvLeader.setAdapter(mAdapter);
 		mLvLeader.setOnItemClickListener(this);

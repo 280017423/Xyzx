@@ -32,7 +32,7 @@ public class RunHeFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.news_runhe_fragment, container, false);
+		View view = inflater.inflate(R.layout.fragment_news_runhe, container, false);
 		mIbtn1 = (ImageButton) view.findViewById(R.id.img_bt1);
 		mIbtn2 = (ImageButton) view.findViewById(R.id.img_bt2);
 		mIbtn3 = (ImageButton) view.findViewById(R.id.img_bt3);

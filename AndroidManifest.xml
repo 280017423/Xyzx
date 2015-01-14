@@ -80,26 +80,6 @@
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="com.cn.xyzx.activity.DetailActivity"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-        <activity
-            android:name="com.cn.xyzx.activity.NewsVideoActivity"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-        <activity
-            android:name="com.cn.xyzx.activity.NavigationActivity"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-        <activity
-            android:name="com.cn.xyzx.activity.DownVideoActivity"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-        <activity
             android:name="com.cn.xyzx.activity.ProductActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Light.NoTitleBar" >

@@ -43,7 +43,7 @@ public class NewsFragment extends FragmentBase implements OnItemClickListener {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View mView = inflater.inflate(R.layout.info_fragment, container, false);
+		View mView = inflater.inflate(R.layout.fragment_info, container, false);
 		mGvNews = (GridView) mView.findViewById(R.id.info_gridView);
 		mAdapter = new NewsAdapter(getActivity(), mNewsModels, mImageLoader);
 		mGvNews.setNumColumns(2);

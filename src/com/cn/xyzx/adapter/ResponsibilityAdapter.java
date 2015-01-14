@@ -55,7 +55,7 @@ public class ResponsibilityAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		GridViewHolder holder = new GridViewHolder();
 		if (convertView == null) {
-			convertView = View.inflate(mContext, R.layout.info_center_adapter, null);
+			convertView = View.inflate(mContext, R.layout.view_info_center_item, null);
 			holder.imageView = (ImageView) convertView.findViewById(R.id.info_center_img);
 			holder.textView = (TextView) convertView.findViewById(R.id.info_center_tv);
 			convertView.setTag(holder);
