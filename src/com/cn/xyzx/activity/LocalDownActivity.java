@@ -22,10 +22,12 @@ import android.widget.ListView;
 import com.cn.xyzx.R;
 import com.cn.xyzx.adapter.LocalDownLoadAdapter;
 import com.cn.xyzx.bean.FileStateModel;
-import com.cn.xyzx.download.AppConstant;
+import com.cn.xyzx.bean.VideoModel;
 import com.cn.xyzx.download.DownLoadDao;
 import com.cn.xyzx.download.DownloadService;
 import com.cn.xyzx.download.DownloadService.PunchBinder;
+import com.cn.xyzx.util.ServerAPIConstant;
+import com.qianjiang.framework.util.StringUtil;
 
 public class LocalDownActivity extends Activity {
 	private DownLoadDao mDownLoadDao;// 用来与数据库交互
@@ -61,7 +63,7 @@ public class LocalDownActivity extends Activity {
 		mDownLoadDao = new DownLoadDao(this);
 		mFileStateModels = new ArrayList<FileStateModel>();
 		mUpdateReceiver = new UpdateReceiver();
-		mUpdateReceiver.registerAction(AppConstant.LocalActivityConstant.update_action);
+		mUpdateReceiver.registerAction(ServerAPIConstant.ACTION_UPDATE_DOWNLOAD_PROGRESS);
 	}
 
 	@Override
@@ -87,10 +89,6 @@ public class LocalDownActivity extends Activity {
 						mService.deleteData((String) v.getTag());
 						break;
 					case R.id.btn_start_pause_download:
-						FileStateModel fileState = (FileStateModel) v.getTag();
-						if (null != fileState) {
-							mService.switchState(fileState.getMusicName());
-						}
 						break;
 
 					default:
@@ -104,9 +102,11 @@ public class LocalDownActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				FileStateModel fileState = (FileStateModel) parent.getAdapter().getItem(position);
-				if (null != fileState) {
-					mService.switchState(fileState.getMusicName());
+				if (null == fileState || StringUtil.isNullOrEmpty(fileState.getMusicName())
+						|| StringUtil.isNullOrEmpty(fileState.getUrl())) {
+					return;
 				}
+				mService.switchState(fileState.getMusicName(), fileState.getUrl());
 			}
 
 		});
@@ -123,10 +123,9 @@ public class LocalDownActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// 接收来自DownloadService传送过来的数据,并且更新进度条
-			if (intent.getAction().equals(AppConstant.LocalActivityConstant.update_action)) {
+			if (intent.getAction().equals(ServerAPIConstant.ACTION_UPDATE_DOWNLOAD_PROGRESS)) {
 				String url = intent.getStringExtra("url");
 				int completeSize = intent.getIntExtra("completeSize", 0);
-//				System.out.println("completeSize:" + completeSize);
 				for (int i = 0; i < mFileStateModels.size(); i++) {
 					FileStateModel fileState = mFileStateModels.get(i);
 					if (fileState.getUrl().equals(url)) {

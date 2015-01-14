@@ -15,7 +15,6 @@ import android.widget.VideoView;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.bean.VideoModel;
-import com.cn.xyzx.download.AppConstant.NetworkConstant;
 import com.qianjiang.framework.util.EvtLog;
 import com.qianjiang.framework.util.StringUtil;
 import com.qianjiang.framework.widget.LoadingUpView;

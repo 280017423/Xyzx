@@ -68,11 +68,6 @@ public class VideoAdapter extends BaseAdapter {
 		}
 
 		VideoModel productModel = mProductList.get(position);
-		if (1 == productModel.getHasDownload()) {
-			holder.mIvDownload.setBackgroundResource(R.drawable.icon_has_download_bg);
-		} else {
-			holder.mIvDownload.setBackgroundResource(R.drawable.icon_no_download_bg);
-		}
 		holder.mIvDownload.setTag(productModel);
 		holder.mIvDownload.setOnClickListener(mListener);
 		mImageDownloader.displayImage(productModel.getPicture(), holder.imageView,

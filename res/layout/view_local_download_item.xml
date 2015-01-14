@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="@drawable/local_download_background" >
 
     <RelativeLayout
         android:id="@+id/rl_local_layout"
@@ -36,7 +37,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btn_start_pause_download"
-                android:text="删除" />
+                android:background="@drawable/arrow_progress_text_background"
+                android:text="删除"
+                android:textColor="@color/white" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -53,8 +56,9 @@
                 android:id="@+id/pb_download"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:indeterminate="false" />
+                android:layout_height="8dp"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/arrow_progress_bg" />
 
             <TextView
                 android:id="@+id/tv_percent"
