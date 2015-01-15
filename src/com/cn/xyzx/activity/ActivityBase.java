@@ -35,12 +35,12 @@ public class ActivityBase extends QJActivityBase implements IDialogProtocol {
 	}
 
 	@Override
-	public void onResume() {
+	protected void onResume() {
 		super.onResume();
 	}
 
 	@Override
-	public void onPause() {
+	protected void onPause() {
 		super.onPause();
 	}
 

@@ -3,31 +3,36 @@ package com.cn.xyzx.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class FileStateModel implements Parcelable {
-	private String musicName; // 歌曲名字
+import com.qianjiang.framework.orm.BaseModel;
+
+public class FileStateModel extends BaseModel implements Parcelable {
+	private static final long serialVersionUID = 3710620581696203798L;
+	private String fileName; // 歌曲名字
 	private String url; // 下载地址
-	private int state; // 歌曲当前状态 1为正在下载 0为已下载
+	private int state; // 文件下载当前状态 1为正在下载， 0为暂停， 2为已经完成
 	private int completeSize; // 已下载的长度
 	private int fileSize; // 文件长度
+	private String title; // 用来显示的文件名字
+	private String picture; // 视频图片路径
 
 	public FileStateModel() {
 	}
 
-	public FileStateModel(String musicName, String url, int completeSize, int fileSize, int state) {
+	public FileStateModel(String fileName, String url, int completeSize, int fileSize, int state) {
 		super();
-		this.musicName = musicName;
+		this.fileName = fileName;
 		this.url = url;
 		this.state = state;
 		this.completeSize = completeSize;
 		this.fileSize = fileSize;
 	}
 
-	public String getMusicName() {
-		return null == musicName ? "" : musicName;
+	public String getFileName() {
+		return null == fileName ? "" : fileName;
 	}
 
-	public void setMusicName(String musicName) {
-		this.musicName = musicName;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	public String getUrl() {
@@ -62,12 +67,32 @@ public class FileStateModel implements Parcelable {
 		this.fileSize = fileSize;
 	}
 
+	public String getTitle() {
+		return null == title ? "" : title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+	public boolean isComplete() {
+		return 0 != fileSize && fileSize == completeSize;
+	}
+
 	public static final Parcelable.Creator<FileStateModel> CREATOR = new Parcelable.Creator<FileStateModel>() {
 
 		@Override
 		public FileStateModel createFromParcel(Parcel in) {
 			FileStateModel fileState = new FileStateModel();
-			fileState.musicName = in.readString();
+			fileState.fileName = in.readString();
 			fileState.url = in.readString();
 			fileState.completeSize = in.readInt();
 			fileState.fileSize = in.readInt();
@@ -88,7 +113,7 @@ public class FileStateModel implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
-		parcel.writeString(musicName);
+		parcel.writeString(fileName);
 		parcel.writeString(url);
 		parcel.writeInt(completeSize);
 		parcel.writeInt(fileSize);

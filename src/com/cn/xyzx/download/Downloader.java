@@ -16,14 +16,14 @@ import android.widget.Toast;
 
 import com.cn.xyzx.bean.DownloadInfoModel;
 import com.cn.xyzx.bean.LoadInfoModel;
+import com.cn.xyzx.db.DownLoadDao;
 
 public class Downloader {
 	private String downPath;// 下载路径
 	private String savePath;// 保存路径
-	private String musicName;// 歌曲名字
+	private String fileName;// 歌曲名字
 	private int threadCount;// 线程数
 	private Handler mHandler;
-	private DownLoadDao dao;
 	private Context context;
 	private int fileSize;// 文件大小
 	private int range;
@@ -38,22 +38,21 @@ public class Downloader {
 	 *            下载地址
 	 * @param savePath
 	 *            保存地址
-	 * @param musicName
-	 *            音乐名称
+	 * @param fileName
+	 *            文件名称
 	 * @param threadcount
 	 *            使用的线程数
 	 * @param context
 	 *            用来创建一个DAO对象
 	 * **/
-	public Downloader(String downPath, String savePath, String musicName, int threadCount, Context context,
+	public Downloader(String downPath, String savePath, String fileName, int threadCount, Context context,
 			Handler mHandler) {
 		this.downPath = downPath;
 		this.savePath = savePath;
-		this.musicName = musicName;
+		this.fileName = fileName;
 		this.threadCount = threadCount;
 		this.context = context;
 		this.mHandler = mHandler;
-		dao = new DownLoadDao(context);
 	}
 
 	/**
@@ -96,13 +95,13 @@ public class Downloader {
 					this.threadCount - 1, (this.threadCount - 1) * range, this.fileSize, 0, downPath);
 			infos.add(info);
 			// 将这个infos加入到数据库,表面ListView上的一个item已经初始化，已经不是第1次下载了
-			dao.saveInfos(infos, this.context);
+			DownLoadDao.saveInfos(infos);
 			// 创建一个LoadInfo对象记载下载器的具体信息
 			LoadInfoModel loadInfo = new LoadInfoModel(this.fileSize, 0, this.downPath);
 			return loadInfo;
 		} else {
 			// 如果不是第1次下载,得到数据库中已有的urlstr的下载器的具体信息
-			infos = dao.getInfos(this.downPath);
+			infos = DownLoadDao.getInfos(this.downPath);
 			int size = 0;
 			int completeSize = 0;
 			for (DownloadInfoModel info : infos) {
@@ -136,7 +135,7 @@ public class Downloader {
 						System.out.println("mkdirs success.");
 					}
 				}
-				File file = new File(this.savePath, this.musicName);
+				File file = new File(this.savePath, this.fileName);
 				RandomAccessFile randomFile = new RandomAccessFile(file, "rwd");
 				randomFile.setLength(fileSize);// 设置保存文件的大小
 				randomFile.close();
@@ -158,23 +157,24 @@ public class Downloader {
 			if (state == DOWNLOADING) {
 				return;
 			}
+			DownLoadDao.updateFileState(downPath, 1);
 			state = DOWNLOADING;// 把状态设置为正在下载
 			for (DownloadInfoModel info : infos) {
 				new MyThread(
 						info.getThreadId(), info.getStartPos(), info.getEndPos(), info.getCompeleteSize(),
-						info.getUrl(), this.context).start();
+						info.getUrl()).start();
 			}
-
 		}
 	}
 
 	// 删除数据库中urlstr对应的下载器信息
 	public void delete(String urlstr) {
-		dao.delete(urlstr);
+		DownLoadDao.delete(urlstr);
 	}
 
 	// 设置暂停
 	public void pause() {
+		DownLoadDao.updateFileState(downPath, 0);
 		state = PAUSE;
 	}
 
@@ -189,7 +189,7 @@ public class Downloader {
 	 * @return boolean 有的话返回false,没有返回true
 	 */
 	private boolean isFirst(String urlstr) {
-		return dao.isHasInfors(urlstr);
+		return DownLoadDao.isFirstDownLoad(urlstr);
 	}
 
 	/**
@@ -201,7 +201,6 @@ public class Downloader {
 		private int endPos;
 		private int compeleteSize;
 		private String urlstr;
-		private Context context;
 
 		/**
 		 * @param threadId
@@ -215,13 +214,12 @@ public class Downloader {
 		 * @param urlstr
 		 *            下载地址
 		 * **/
-		public MyThread(int threadId, int startPos, int endPos, int compeleteSize, String urlstr, Context context) {
+		public MyThread(int threadId, int startPos, int endPos, int compeleteSize, String urlstr) {
 			this.threadId = threadId;
 			this.startPos = startPos;
 			this.endPos = endPos;
 			this.compeleteSize = compeleteSize;
 			this.urlstr = urlstr;
-			this.context = context;
 		}
 
 		@Override
@@ -229,7 +227,7 @@ public class Downloader {
 			HttpURLConnection conn = null;
 			RandomAccessFile randomAccessFile = null;
 			InputStream inStream = null;
-			File file = new File(savePath, musicName);
+			File file = new File(savePath, fileName);
 			try {
 				URL url = new URL(this.urlstr);
 				conn = (HttpURLConnection) url.openConnection();
@@ -247,7 +245,7 @@ public class Downloader {
 						randomAccessFile.write(buffer, 0, length);
 						compeleteSize += length;// 累加已经下载的长度
 						// 更新数据库中的下载信息
-						dao.updataInfos(threadId, compeleteSize, urlstr, this.context);
+						DownLoadDao.updataInfos(threadId, compeleteSize, urlstr);
 						// 用消息将下载信息传给进度条，对进度条进行更新
 						Message message = mHandler.obtainMessage();
 						message.what = 1;
@@ -261,12 +259,14 @@ public class Downloader {
 					}
 					System.out.println("threadid:" + this.threadId + "is over");
 				} else {
+					pause();
 					Message message = mHandler.obtainMessage();
 					message.what = -1;
 					message.obj = urlstr;
 					mHandler.sendEmptyMessage(-1);// 给DownloaderService发送消息
 				}
 			} catch (Exception e) {
+				pause();
 				Message message = mHandler.obtainMessage();
 				message.what = -1;
 				message.obj = urlstr;
@@ -281,7 +281,6 @@ public class Downloader {
 						randomAccessFile.close();
 					}
 					conn.disconnect();
-					dao.closeDb();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

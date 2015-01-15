@@ -14,7 +14,7 @@ import android.widget.VideoView;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.bean.VideoModel;
-import com.cn.xyzx.download.DownLoadDao;
+import com.cn.xyzx.db.DownLoadDao;
 import com.cn.xyzx.util.ServerAPIConstant;
 import com.qianjiang.framework.util.EvtLog;
 import com.qianjiang.framework.util.StringUtil;
@@ -27,7 +27,6 @@ public class VideoPlayerActivity extends ActivityBase implements OnPreparedListe
 	private VideoView mVideoView;
 	private VideoModel mVideoModel;
 	private LoadingUpView mLoadingUpView;
-	private DownLoadDao mDownloadDao;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,6 @@ public class VideoPlayerActivity extends ActivityBase implements OnPreparedListe
 			toast(getString(R.string.toast_error_url));
 			finish();
 		}
-		mDownloadDao = new DownLoadDao(this);
 		mLoadingUpView.showPopup(getString(R.string.video_loading_title));
 		EvtLog.d("aaa", mVideoModel.getVideoUrl());
 	}
@@ -57,7 +55,7 @@ public class VideoPlayerActivity extends ActivityBase implements OnPreparedListe
 
 	@Override
 	public boolean onError(MediaPlayer mp, int what, int extra) {
-		if (mDownloadDao.hasFile(mVideoModel.getFileName())) {
+		if (DownLoadDao.hasFile(mVideoModel.getFileName())) {
 			toast(getString(R.string.local_video_error));
 		} else {
 			toast(getString(R.string.toast_error_url));
@@ -69,7 +67,7 @@ public class VideoPlayerActivity extends ActivityBase implements OnPreparedListe
 
 	private void initView() {
 		mVideoView = new VideoView(this);
-		if (mDownloadDao.hasFile(mVideoModel.getFileName())) {
+		if (DownLoadDao.hasFile(mVideoModel.getFileName())) {
 			mVideoView.setVideoURI(Uri.parse(ServerAPIConstant.getDownloadPath() + mVideoModel.getFileName()));
 		} else {
 			mVideoView.setVideoURI(Uri.parse(mVideoModel.getVideoUrl()));

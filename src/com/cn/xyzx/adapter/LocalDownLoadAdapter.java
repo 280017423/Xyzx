@@ -9,32 +9,42 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.bean.FileStateModel;
-import com.cn.xyzx.download.DownLoadDao;
+import com.cn.xyzx.db.DownLoadDao;
 import com.cn.xyzx.util.ServerAPIConstant;
+import com.qianjiang.framework.imageloader.core.DisplayImageOptions;
+import com.qianjiang.framework.imageloader.core.DisplayImageOptions.Builder;
+import com.qianjiang.framework.imageloader.core.ImageLoader;
+import com.qianjiang.framework.imageloader.core.display.SimpleBitmapDisplayer;
+import com.qianjiang.framework.util.StringUtil;
 
 public class LocalDownLoadAdapter extends BaseAdapter {
 	private List<FileStateModel> mDownLoadList;
-	private DownLoadDao mDownLoadDao;
 	private Context mContext;
 	private OnClickListener mListener;
 	private ListView mListView;
+	private ImageLoader mImageDownloader;
+	private Builder mOptions;
 
-	public LocalDownLoadAdapter(Context context, List<FileStateModel> models, DownLoadDao downLoadDao,
-			OnClickListener listener, ListView listView) {
+	public LocalDownLoadAdapter(Context context, List<FileStateModel> models, OnClickListener listener,
+			ListView listView, ImageLoader loader) {
 		mDownLoadList = models;
-		mDownLoadDao = downLoadDao;
 		mContext = context;
 		mListener = listener;
 		mListView = listView;
+		mImageDownloader = loader;
+		mOptions = new DisplayImageOptions.Builder().cacheInMemory().cacheOnDisc()
+				.displayer(new SimpleBitmapDisplayer());
 	}
 
 	final class ViewHolder {
+		public ImageView mIvVideoPic; // 显示文件名称
 		public TextView mTvFileName; // 显示文件名称
 		public ProgressBar mProgressBar; // 进度条
 		public TextView mTvPercent; // 百分比
@@ -72,6 +82,7 @@ public class LocalDownLoadAdapter extends BaseAdapter {
 			convertView = View.inflate(mContext, R.layout.view_local_download_item, null);
 			holder = new ViewHolder();
 			holder.mView = convertView.findViewById(R.id.rl_local_layout);
+			holder.mIvVideoPic = (ImageView) convertView.findViewById(R.id.iv_file_icon);
 			holder.mTvFileName = (TextView) convertView.findViewById(R.id.tv_file_name);
 			holder.mProgressBar = (ProgressBar) convertView.findViewById(R.id.pb_download);
 			holder.mTvPercent = (TextView) convertView.findViewById(R.id.tv_percent);
@@ -85,8 +96,12 @@ public class LocalDownLoadAdapter extends BaseAdapter {
 		}
 		holder.mView.setTag(fileStateModel.getUrl());
 
-		final String name = fileStateModel.getMusicName();
-		holder.mTvFileName.setText(name);
+		mImageDownloader.displayImage(fileStateModel.getPicture(), holder.mIvVideoPic,
+				mOptions.showImageForEmptyUri(R.drawable.news_default).build());
+
+		final String title = fileStateModel.getTitle();
+		final String name = fileStateModel.getFileName();
+		holder.mTvFileName.setText(StringUtil.isNullOrEmpty(title) ? name : title);
 		int state = fileStateModel.getState();
 		if (0 == state) {
 			// 下载完成的文件，进度条被隐藏
@@ -101,7 +116,7 @@ public class LocalDownLoadAdapter extends BaseAdapter {
 			holder.mProgressBar.setVisibility(View.VISIBLE);
 			holder.mBtnPauseOrStart.setVisibility(View.GONE);
 			holder.mProgressBar.setProgress((int) num);
-			holder.mTvPercent.setText(num + "%");
+			holder.mTvPercent.setText((int) num + "%");
 			// 当文件下载完成
 			if (fileStateModel.getCompleteSize() == fileStateModel.getFileSize()) {
 				fileStateModel.setState(0);
@@ -117,7 +132,7 @@ public class LocalDownLoadAdapter extends BaseAdapter {
 		holder.mBtnDelete.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mDownLoadDao.deleteFileState(name); // 从数据库中删除
+				DownLoadDao.deleteFileState(name); // 从数据库中删除
 				mDownLoadList.remove(position); // 从列表中删除
 				mListener.onClick(v); // 从下载队列删除
 				File file = new File(ServerAPIConstant.getDownloadPath() + name);

@@ -16,13 +16,12 @@
             android:layout_height="60dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/ic_launcher"
             android:contentDescription="@null" />
 
         <RelativeLayout
             android:id="@+id/rl_action"
             android:layout_width="80dp"
-            android:layout_height="800dp"
+            android:layout_height="80dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
@@ -75,7 +74,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pb_download"
+                android:ellipsize="end"
                 android:padding="5dp"
+                android:singleLine="true"
                 android:textColor="@color/white" />
         </RelativeLayout>
     </RelativeLayout>

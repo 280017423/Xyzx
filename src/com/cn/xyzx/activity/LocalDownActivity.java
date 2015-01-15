@@ -3,7 +3,6 @@ package com.cn.xyzx.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,14 +22,13 @@ import android.widget.TextView;
 import com.cn.xyzx.R;
 import com.cn.xyzx.adapter.LocalDownLoadAdapter;
 import com.cn.xyzx.bean.FileStateModel;
-import com.cn.xyzx.download.DownLoadDao;
+import com.cn.xyzx.db.DownLoadDao;
 import com.cn.xyzx.download.DownloadService;
 import com.cn.xyzx.download.DownloadService.PunchBinder;
 import com.cn.xyzx.util.ServerAPIConstant;
 import com.qianjiang.framework.util.StringUtil;
 
-public class LocalDownActivity extends Activity {
-	private DownLoadDao mDownLoadDao;// 用来与数据库交互
+public class LocalDownActivity extends ActivityBase {
 	private ListView mLvDownload;
 	private List<FileStateModel> mFileStateModels;// 用于存放要显示的列表
 	private LocalDownLoadAdapter mLocalDownLoadAdapter;// 自定义adapter
@@ -61,7 +59,6 @@ public class LocalDownActivity extends Activity {
 	}
 
 	private void initVariable() {
-		mDownLoadDao = new DownLoadDao(this);
 		mFileStateModels = new ArrayList<FileStateModel>();
 		mUpdateReceiver = new UpdateReceiver();
 		mUpdateReceiver.registerAction(ServerAPIConstant.ACTION_UPDATE_DOWNLOAD_PROGRESS);
@@ -71,7 +68,7 @@ public class LocalDownActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		mFileStateModels.clear();
-		mFileStateModels.addAll(mDownLoadDao.getFileState());
+		mFileStateModels.addAll(DownLoadDao.getFileState());
 		mLocalDownLoadAdapter.notifyDataSetChanged();
 		if (null == mFileStateModels || mFileStateModels.isEmpty()) {
 			mTvEmptyContent.setVisibility(View.VISIBLE);
@@ -82,12 +79,12 @@ public class LocalDownActivity extends Activity {
 		}
 		for (int i = 0; i < mFileStateModels.size(); i++) {
 			FileStateModel fileState = mFileStateModels.get(i);
-			if (null == fileState || StringUtil.isNullOrEmpty(fileState.getMusicName())
+			if (null == fileState || StringUtil.isNullOrEmpty(fileState.getFileName())
 					|| StringUtil.isNullOrEmpty(fileState.getUrl())) {
 				return;
 			}
 			if (null != mService) {
-				mService.reStartDownload(fileState.getMusicName(), fileState.getUrl());
+				mService.reStartDownload(fileState.getFileName(), fileState.getUrl());
 			}
 		}
 	}
@@ -95,7 +92,7 @@ public class LocalDownActivity extends Activity {
 	private void initViews() {
 		mTvEmptyContent = (TextView) findViewById(R.id.tv_empty_content);
 		mLvDownload = (ListView) this.findViewById(R.id.listview);
-		mLocalDownLoadAdapter = new LocalDownLoadAdapter(this, mFileStateModels, mDownLoadDao, new OnClickListener() {
+		mLocalDownLoadAdapter = new LocalDownLoadAdapter(this, mFileStateModels, new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -117,20 +114,19 @@ public class LocalDownActivity extends Activity {
 						break;
 				}
 			}
-		}, mLvDownload);
+		}, mLvDownload, mImageLoader);
 		mLvDownload.setAdapter(mLocalDownLoadAdapter);
 		mLvDownload.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				FileStateModel fileState = (FileStateModel) parent.getAdapter().getItem(position);
-				if (null == fileState || StringUtil.isNullOrEmpty(fileState.getMusicName())
-						|| StringUtil.isNullOrEmpty(fileState.getUrl())) {
+				if (null == fileState || StringUtil.isNullOrEmpty(fileState.getFileName())
+						|| StringUtil.isNullOrEmpty(fileState.getUrl()) || fileState.isComplete()) {
 					return;
 				}
-				mService.switchState(fileState.getMusicName(), fileState.getUrl());
+				mService.switchState(fileState.getFileName(), fileState.getUrl());
 			}
-
 		});
 	}
 
@@ -178,7 +174,7 @@ public class LocalDownActivity extends Activity {
 	protected void onDestroy() {
 		unbindPunchService();
 		unregisterReceiver(mUpdateReceiver);
-		mDownLoadDao.updateFileDownState(mFileStateModels);// 当activity退出时,更新localdown_info这个表
+		DownLoadDao.updateFileDownState(mFileStateModels);// 当activity退出时,更新localdown_info这个表
 		super.onDestroy();
 	}
 

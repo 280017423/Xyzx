@@ -2,6 +2,8 @@ package com.cn.xyzx.util;
 
 import android.content.Context;
 
+import com.cn.xyzx.bean.DownloadInfoModel;
+import com.cn.xyzx.bean.FileStateModel;
 import com.cn.xyzx.bean.HonorModel;
 import com.cn.xyzx.bean.LeaderModel;
 import com.cn.xyzx.bean.NewsCateModel;
@@ -39,6 +41,8 @@ public class DBUtil {
 			DATABASE_BUILDER.addClass(HonorModel.class);
 			DATABASE_BUILDER.addClass(ResponsibilityModel.class);
 			DATABASE_BUILDER.addClass(VideoModel.class);
+			DATABASE_BUILDER.addClass(DownloadInfoModel.class);
+			DATABASE_BUILDER.addClass(FileStateModel.class);
 		}
 	}
 

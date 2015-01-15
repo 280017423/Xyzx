@@ -146,8 +146,8 @@ public class InfoCenterActivity extends FragmentActivity implements OnClickListe
 		super.onDestroy();
 	}
 
-	public void startDownload(final String fileName, final String downPath) {
-		mService.startDownload(fileName, downPath);
+	public void startDownload(final String fileName, String title, final String downPath, String picUrl) {
+		mService.startDownload(fileName, title, downPath, picUrl);
 	}
 
 }

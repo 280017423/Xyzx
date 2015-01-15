@@ -122,7 +122,8 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 								|| StringUtil.isNullOrEmpty(model.getVideoUrl())) {
 							return;
 						}
-						((InfoCenterActivity) getActivity()).startDownload(model.getFileName(), model.getVideoUrl());
+						((InfoCenterActivity) getActivity()).startDownload(model.getFileName(), model.getTitle(),
+								model.getVideoUrl(), model.getPicture());
 						break;
 					default:
 						break;
