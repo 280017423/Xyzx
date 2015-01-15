@@ -14,8 +14,8 @@ import android.widget.VideoView;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.bean.VideoModel;
-import com.cn.xyzx.download.AppConstant.NetworkConstant;
 import com.cn.xyzx.download.DownLoadDao;
+import com.cn.xyzx.util.ServerAPIConstant;
 import com.qianjiang.framework.util.EvtLog;
 import com.qianjiang.framework.util.StringUtil;
 import com.qianjiang.framework.widget.LoadingUpView;
@@ -70,7 +70,7 @@ public class VideoPlayerActivity extends ActivityBase implements OnPreparedListe
 	private void initView() {
 		mVideoView = new VideoView(this);
 		if (mDownloadDao.hasFile(mVideoModel.getFileName())) {
-			mVideoView.setVideoURI(Uri.parse(NetworkConstant.savePath + mVideoModel.getFileName()));
+			mVideoView.setVideoURI(Uri.parse(ServerAPIConstant.getDownloadPath() + mVideoModel.getFileName()));
 		} else {
 			mVideoView.setVideoURI(Uri.parse(mVideoModel.getVideoUrl()));
 		}

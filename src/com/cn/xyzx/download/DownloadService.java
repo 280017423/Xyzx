@@ -54,7 +54,7 @@ public class DownloadService extends Service {
 				}
 
 			} else if (msg.what == -1) {
-				Toast.makeText(DownloadService.this, AppConstant.AdapterConstant.down_fail, Toast.LENGTH_LONG).show();
+				Toast.makeText(DownloadService.this, R.string.status_download_fail, Toast.LENGTH_LONG).show();
 			}
 		}
 
@@ -91,7 +91,7 @@ public class DownloadService extends Service {
 			Toast.makeText(getApplicationContext(), R.string.video_has_download, Toast.LENGTH_SHORT).show();
 			return;
 		}
-		String savePath = AppConstant.NetworkConstant.savePath;// 保存地址
+		String savePath = ServerAPIConstant.getDownloadPath();// 保存地址
 		mDownloader = mDownloadersMap.get(downPath);
 		if (mDownloader == null) {
 			mDownloader = new Downloader(downPath, savePath, musicName, 1, this, mHandler);
@@ -106,12 +106,14 @@ public class DownloadService extends Service {
 			@Override
 			public void run() {
 				LoadInfoModel loadInfo = mDownloader.getDownloaderInfors();
-				FileStateModel fileState = new FileStateModel(
-						musicName, downPath, loadInfo.getComplete(), loadInfo.getFileSize(), 1);
-				mDownloadDao.insertFileState(fileState, DownloadService.this);// 在localdown_info表中插入一条下载数据
-				mCompleteSizes.put(downPath, loadInfo.getComplete());
-				mFileSizes.put(downPath, fileState.getFileSize());
-				mDownloader.download();
+				if (null != loadInfo) {
+					FileStateModel fileState = new FileStateModel(
+							musicName, downPath, loadInfo.getComplete(), loadInfo.getFileSize(), 1);
+					mDownloadDao.insertFileState(fileState, DownloadService.this);// 在localdown_info表中插入一条下载数据
+					mCompleteSizes.put(downPath, loadInfo.getComplete());
+					mFileSizes.put(downPath, fileState.getFileSize());
+					mDownloader.download();
+				}
 			}
 		}).start();
 	}
@@ -120,14 +122,14 @@ public class DownloadService extends Service {
 	 * 重新下载方法，如果下载暂停了，调用此方法重新下载
 	 * **/
 	public void reStartDownload(String musicName, final String downPath) {
-		String savePath = AppConstant.NetworkConstant.savePath;// 保存地址
-		if (mDownloader.isdownloading()) {
-			return;
-		}
+		String savePath = ServerAPIConstant.getDownloadPath();// 保存地址
 		mDownloader = mDownloadersMap.get(downPath);
 		if (mDownloader == null) {
 			mDownloader = new Downloader(downPath, savePath, musicName, 1, this, mHandler);
 			mDownloadersMap.put(downPath, mDownloader);// 创建完一个新的下载器,必须把它加入到下载器集合里去
+		}
+		if (mDownloader.isdownloading()) {
+			return;
 		}
 		new Thread(new Runnable() {
 

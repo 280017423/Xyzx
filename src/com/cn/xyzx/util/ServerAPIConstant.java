@@ -1,7 +1,10 @@
 package com.cn.xyzx.util;
 
+import java.io.File;
+
 import com.qianjiang.framework.app.QJApplicationBase;
 import com.qianjiang.framework.util.AppUtil;
+import com.qianjiang.framework.util.PackageUtil;
 
 /**
  * 定义与服务器端的接口交互需要用到的常量
@@ -46,6 +49,19 @@ public class ServerAPIConstant {
 	 */
 	public static String getUrl(String interfaceName) {
 		return getApiRootUrl() + interfaceName;
+	}
+
+	public static String getDownloadPath() {
+		File videoDir = null;
+		if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+			videoDir = new File(
+					android.os.Environment.getExternalStorageDirectory(),
+					PackageUtil.getConfigString("video_download_dir"));
+		}
+		if (!videoDir.exists()) {
+			videoDir.mkdirs();
+		}
+		return videoDir.getAbsolutePath() + File.separator;
 	}
 
 }

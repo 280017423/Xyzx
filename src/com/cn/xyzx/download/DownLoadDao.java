@@ -13,7 +13,7 @@ import com.cn.xyzx.bean.FileStateModel;
 
 public class DownLoadDao {
 	private DBHelper dbHelper;
-	private static final String DATABASE_NAME = "down.db";
+	private static final String DATABASE_NAME = "xinya.db";
 	public static String Lock = "dblock";
 	public static String file_Lock = "fileLock";
 

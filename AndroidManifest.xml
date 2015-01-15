@@ -39,6 +39,9 @@
             android:name="image_dir"
             android:value="xinya/com.cn.xyzx/image" />
         <meta-data
+            android:name="video_download_dir"
+            android:value="xinya/com.cn.xyzx/video" />
+        <meta-data
             android:name="http_cache_dir"
             android:value="xinya/com.cn.xyzx/cache" />
         <meta-data

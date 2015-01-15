@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.bean.FileStateModel;
-import com.cn.xyzx.download.AppConstant;
 import com.cn.xyzx.download.DownLoadDao;
+import com.cn.xyzx.util.ServerAPIConstant;
 
 public class LocalDownLoadAdapter extends BaseAdapter {
 	private List<FileStateModel> mDownLoadList;
@@ -91,7 +91,7 @@ public class LocalDownLoadAdapter extends BaseAdapter {
 		if (0 == state) {
 			// 下载完成的文件，进度条被隐藏
 			holder.mProgressBar.setVisibility(View.GONE);
-			holder.mTvPercent.setText(AppConstant.AdapterConstant.down_over);
+			holder.mTvPercent.setText(R.string.status_has_download);
 			holder.mBtnPauseOrStart.setVisibility(View.GONE);
 		} else if (1 == state) {
 			// 如果状态是1,则是正在下载
@@ -108,9 +108,9 @@ public class LocalDownLoadAdapter extends BaseAdapter {
 				mDownLoadList.set(position, fileStateModel);
 				holder.mProgressBar.setVisibility(View.GONE);
 				if (fileStateModel.getCompleteSize() == 0) {
-					holder.mTvPercent.setText(AppConstant.AdapterConstant.down_fail);
+					holder.mTvPercent.setText(R.string.status_download_fail);
 				} else {
-					holder.mTvPercent.setText(AppConstant.AdapterConstant.down_over);
+					holder.mTvPercent.setText(R.string.status_has_download);
 				}
 			}
 		}
@@ -120,7 +120,7 @@ public class LocalDownLoadAdapter extends BaseAdapter {
 				mDownLoadDao.deleteFileState(name); // 从数据库中删除
 				mDownLoadList.remove(position); // 从列表中删除
 				mListener.onClick(v); // 从下载队列删除
-				File file = new File(AppConstant.NetworkConstant.savePath + name);
+				File file = new File(ServerAPIConstant.getDownloadPath() + name);
 				file.delete(); // 在存储器中删除
 				notifyDataSetChanged();
 			}
@@ -145,9 +145,9 @@ public class LocalDownLoadAdapter extends BaseAdapter {
 				fileStateModel.setState(0);
 				progressBar.setVisibility(View.INVISIBLE);
 				if (fileStateModel.getCompleteSize() == 0) {
-					tvPercent.setText(AppConstant.AdapterConstant.down_fail);
+					tvPercent.setText(R.string.status_download_fail);
 				} else {
-					tvPercent.setText(AppConstant.AdapterConstant.down_over);
+					tvPercent.setText(R.string.status_has_download);
 				}
 			}
 		} catch (Exception e) {
