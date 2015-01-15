@@ -58,7 +58,7 @@ public class VideoAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		GridViewHolder holder = new GridViewHolder();
 		if (convertView == null) {
-			convertView = View.inflate(mContext, R.layout.view_info_center_item, null);
+			convertView = View.inflate(mContext, R.layout.view_video_item, null);
 			holder.imageView = (ImageView) convertView.findViewById(R.id.info_center_img);
 			holder.mIvDownload = (ImageView) convertView.findViewById(R.id.iv_down_icon);
 			holder.textView = (TextView) convertView.findViewById(R.id.info_center_tv);
