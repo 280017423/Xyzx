@@ -2,9 +2,12 @@ package com.cn.xyzx.adapter;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,19 +18,26 @@ import com.qianjiang.framework.imageloader.core.DisplayImageOptions;
 import com.qianjiang.framework.imageloader.core.DisplayImageOptions.Builder;
 import com.qianjiang.framework.imageloader.core.ImageLoader;
 import com.qianjiang.framework.imageloader.core.display.SimpleBitmapDisplayer;
+import com.qianjiang.framework.util.UIUtil;
 
 public class ProductAdapter extends BaseAdapter {
+	private static final int SPACE_VALUE = 50;
+	private static final int NUM_COLUMNS = 3;
+	private int mWidth;
 	private Context mContext;
 	private List<ProductModel> mProductList;
 	private ImageLoader mImageDownloader;
 	private Builder mOptions;
 
-	public ProductAdapter(Context context, List<ProductModel> list, ImageLoader loader) {
+	public ProductAdapter(Activity context, List<ProductModel> list, ImageLoader loader) {
 		mContext = context;
 		mProductList = list;
 		mImageDownloader = loader;
 		mOptions = new DisplayImageOptions.Builder().cacheInMemory().cacheOnDisc()
 				.displayer(new SimpleBitmapDisplayer());
+		DisplayMetrics metric = new DisplayMetrics();
+		context.getWindowManager().getDefaultDisplay().getMetrics(metric);
+		mWidth = metric.widthPixels;
 	}
 
 	@Override
@@ -67,7 +77,10 @@ public class ProductAdapter extends BaseAdapter {
 		mImageDownloader.displayImage(productModel.getPicture(), holder.imageView,
 				mOptions.showImageForEmptyUri(R.drawable.news_default).build());
 		holder.textView.setText(productModel.getTitle());
-
+		LayoutParams layoutParams = holder.imageView.getLayoutParams();
+		layoutParams.width = (mWidth - UIUtil.dip2px(mContext, SPACE_VALUE) * (NUM_COLUMNS + 1)) / NUM_COLUMNS;
+		layoutParams.height = layoutParams.width * 2 / 3;
+		holder.imageView.setLayoutParams(layoutParams);
 		return convertView;
 	}
 
