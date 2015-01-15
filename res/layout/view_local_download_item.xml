@@ -57,8 +57,7 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="8dp"
-                android:indeterminate="false"
-                android:progressDrawable="@drawable/arrow_progress_bg" />
+                android:indeterminate="false" />
 
             <TextView
                 android:id="@+id/tv_percent"

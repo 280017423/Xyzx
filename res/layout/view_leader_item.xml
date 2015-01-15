@@ -23,12 +23,15 @@
             android:layout_weight="1"
             android:orientation="vertical" >
 
-            <ImageView
+            <com.qianjiang.framework.widget.RoundCornerImageView
                 android:id="@+id/lead_img"
                 android:layout_width="200dip"
-                android:layout_height="160dip"
+                android:layout_height="150dip"
                 android:layout_gravity="center|top"
-                android:contentDescription="@null" />
+                android:background="@color/new_green"
+                android:contentDescription="@null"
+                android:padding="1dp"
+                android:scaleType="fitXY" />
         </LinearLayout>
 
         <LinearLayout

@@ -15,7 +15,6 @@ import com.cn.xyzx.bean.VideoModel;
 import com.qianjiang.framework.app.QJApplicationBase;
 import com.qianjiang.framework.orm.DataManager;
 import com.qianjiang.framework.orm.DatabaseBuilder;
-import com.qianjiang.framework.util.EvtLog;
 import com.qianjiang.framework.util.PackageUtil;
 
 /**
@@ -24,8 +23,6 @@ import com.qianjiang.framework.util.PackageUtil;
  * @author zou.sq
  */
 public class DBUtil {
-	private static final String TAG = "pmr.DBUtil";
-
 	private static DatabaseBuilder DATABASE_BUILDER;
 	private static PMRDataManager INSTANCE;
 
@@ -51,7 +48,6 @@ public class DBUtil {
 	 * @return 数据库管理器
 	 */
 	public static DataManager getDataManager() {
-		EvtLog.d(TAG, "PMRDataManager getDataManager, pmr");
 		if (INSTANCE == null) {
 			INSTANCE = new PMRDataManager(QJApplicationBase.CONTEXT, DATABASE_BUILDER);
 		}
@@ -61,7 +57,6 @@ public class DBUtil {
 	static class PMRDataManager extends DataManager {
 		protected PMRDataManager(Context context, DatabaseBuilder databaseBuilder) {
 			super(context, PackageUtil.getConfigString("db_name"), PackageUtil.getConfigInt("db_version"), databaseBuilder);
-			EvtLog.d(TAG, "PMRDataManager, pmr");
 		}
 	}
 

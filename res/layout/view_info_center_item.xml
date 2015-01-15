@@ -6,13 +6,14 @@
 
     <ImageView
         android:id="@+id/info_center_img"
-        android:layout_width="546px"
-        android:layout_height="275px"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:layout_marginLeft="5dip"
-        android:layout_marginTop="35dip"
-        android:contentDescription="@null" />
+        android:background="@color/new_green"
+        android:contentDescription="@null"
+        android:padding="1dp"
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/info_center_tv"

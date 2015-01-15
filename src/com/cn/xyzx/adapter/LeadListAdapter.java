@@ -6,7 +6,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cn.xyzx.R;
@@ -15,6 +14,7 @@ import com.qianjiang.framework.imageloader.core.DisplayImageOptions;
 import com.qianjiang.framework.imageloader.core.DisplayImageOptions.Builder;
 import com.qianjiang.framework.imageloader.core.ImageLoader;
 import com.qianjiang.framework.imageloader.core.display.SimpleBitmapDisplayer;
+import com.qianjiang.framework.widget.RoundCornerImageView;
 
 public class LeadListAdapter extends BaseAdapter {
 
@@ -59,7 +59,7 @@ public class LeadListAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = View.inflate(mContext, R.layout.view_leader_item, null);
 
-			holder.mIvLeader = (ImageView) convertView.findViewById(R.id.lead_img);
+			holder.mIvLeader = (RoundCornerImageView) convertView.findViewById(R.id.lead_img);
 			holder.mTvSummary = (TextView) convertView.findViewById(R.id.lead_tv);
 			holder.mTvTitle = (TextView) convertView.findViewById(R.id.new_title_01);
 			holder.mTvSubTitle = (TextView) convertView.findViewById(R.id.new_title_02);
@@ -76,7 +76,7 @@ public class LeadListAdapter extends BaseAdapter {
 	}
 
 	private final class GridViewHolder {
-		ImageView mIvLeader;
+		RoundCornerImageView mIvLeader;
 		TextView mTvSummary;
 		TextView mTvTitle;
 		TextView mTvSubTitle;

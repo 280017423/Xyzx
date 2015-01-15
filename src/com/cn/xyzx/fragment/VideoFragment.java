@@ -105,7 +105,7 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 			@Override
 			public void doAction() {
 				switch (v.getId()) {
-					case R.id.iv_down_icon:
+					case R.id.btn_down_icon:
 						if (!isAdded()) {
 							return;
 						}

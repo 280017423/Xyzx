@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,7 +61,7 @@ public class VideoAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = View.inflate(mContext, R.layout.view_video_item, null);
 			holder.imageView = (ImageView) convertView.findViewById(R.id.info_center_img);
-			holder.mIvDownload = (ImageView) convertView.findViewById(R.id.iv_down_icon);
+			holder.mIvDownload = (Button) convertView.findViewById(R.id.btn_down_icon);
 			holder.textView = (TextView) convertView.findViewById(R.id.info_center_tv);
 			convertView.setTag(holder);
 		} else {
@@ -80,6 +81,6 @@ public class VideoAdapter extends BaseAdapter {
 	final class GridViewHolder {
 		ImageView imageView;
 		TextView textView;
-		ImageView mIvDownload;
+		Button mIvDownload;
 	}
 }

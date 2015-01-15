@@ -1,28 +1,33 @@
 package com.cn.xyzx.activity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
 import com.cn.xyzx.R;
+import com.cn.xyzx.widget.CustomDialog.Builder;
 
-public class HomeActivity extends ActivityBase implements OnItemClickListener, OnClickListener,
-		android.content.DialogInterface.OnClickListener {
+public class HomeActivity extends ActivityBase implements OnItemClickListener, OnClickListener {
 
+	private static final int DIALOG_EXIT_APP = 0;
 	private GridView mGvItems;
 	private int images[];
 	private SimpleAdapter mAdapter;
+	private CheckBox mCbNoNotice;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -121,18 +126,73 @@ public class HomeActivity extends ActivityBase implements OnItemClickListener, O
 	}
 
 	private void exit() {
-		new AlertDialog.Builder(this).setTitle("确认").setMessage("确定退出吗？").setPositiveButton("是", this)
-				.setNegativeButton("否", this).show();
+		showDialog(DIALOG_EXIT_APP);
 	}
 
 	@Override
-	public void onClick(DialogInterface dialog, int which) {
-		switch (which) {
-			case -1:
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+			case DIALOG_EXIT_APP:
+				Builder builder = createDialogBuilder(this, getString(R.string.button_text_tips),
+						getString(R.string.exit_dialog_title), getString(R.string.button_text_no),
+						getString(R.string.button_text_yes));
+				View view = View.inflate(this, R.layout.view_clear_cache, null);
+				mCbNoNotice = (CheckBox) view.findViewById(R.id.cb_no_notice);
+				builder.setmDialogView(view);
+				Dialog updateDialog = builder.create(id);
+				// 小米手机，默认点击对话框外部也可关闭，需要多一部设置
+				updateDialog.setCanceledOnTouchOutside(false);
+				updateDialog.setCancelable(true);
+				return updateDialog;
+			default:
+				break;
+		}
+		return super.onCreateDialog(id);
+	}
+
+	@Override
+	public void onNegativeBtnClick(int id, DialogInterface dialog, int which) {
+		switch (id) {
+			case DIALOG_EXIT_APP:
+				if (mCbNoNotice.isChecked()) {
+					clearWebViewCache();
+				}
 				finish();
 				break;
 			default:
 				break;
+		}
+		super.onNegativeBtnClick(id, dialog, which);
+	}
+
+	/**
+	 * 清除WebView缓存
+	 */
+	public void clearWebViewCache() {
+		try {
+			deleteDatabase("xyzx.db");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		File appCacheDir = new File(getDir("webview", MODE_WORLD_WRITEABLE).getAbsolutePath());
+		Log.d("aaa", "appCacheDir path=" + appCacheDir.getAbsolutePath());
+		deleteDirRecursive(appCacheDir);
+	}
+
+	public static void deleteDirRecursive(File dir) {
+		if (dir == null || !dir.exists() || !dir.isDirectory()) {
+			return;
+		}
+		File[] files = dir.listFiles();
+		if (files == null) {
+			return;
+		}
+		for (File f : files) {
+			if (f.isFile()) {
+				f.delete();
+			} else {
+				deleteDirRecursive(f);
+			}
 		}
 	}
 

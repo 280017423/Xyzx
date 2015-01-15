@@ -27,8 +27,11 @@ import com.cn.xyzx.download.DownloadService;
 import com.cn.xyzx.download.DownloadService.PunchBinder;
 import com.cn.xyzx.util.ServerAPIConstant;
 import com.qianjiang.framework.util.StringUtil;
+import com.qianjiang.framework.util.UIUtil;
 
 public class LocalDownActivity extends ActivityBase {
+
+	private static final int DELAY_TIME = 2000;
 	private ListView mLvDownload;
 	private List<FileStateModel> mFileStateModels;// 用于存放要显示的列表
 	private LocalDownLoadAdapter mLocalDownLoadAdapter;// 自定义adapter
@@ -95,37 +98,49 @@ public class LocalDownActivity extends ActivityBase {
 		mLocalDownLoadAdapter = new LocalDownLoadAdapter(this, mFileStateModels, new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
-				switch (v.getId()) {
-					case R.id.btn_local_delete:
-						mService.deleteData((String) v.getTag());
-						if (null == mFileStateModels || mFileStateModels.isEmpty()) {
-							mTvEmptyContent.setVisibility(View.VISIBLE);
-							mLvDownload.setVisibility(View.GONE);
-						} else {
-							mTvEmptyContent.setVisibility(View.GONE);
-							mLvDownload.setVisibility(View.VISIBLE);
-						}
-						break;
-					case R.id.btn_start_pause_download:
-						break;
+			public void onClick(final View v) {
+				UIUtil.limitReClick(LocalDownActivity.class.getName(), DELAY_TIME, new ActionListener() {
 
-					default:
-						break;
-				}
+					@Override
+					public void doAction() {
+						switch (v.getId()) {
+							case R.id.btn_local_delete:
+								mService.deleteData((String) v.getTag());
+								if (null == mFileStateModels || mFileStateModels.isEmpty()) {
+									mTvEmptyContent.setVisibility(View.VISIBLE);
+									mLvDownload.setVisibility(View.GONE);
+								} else {
+									mTvEmptyContent.setVisibility(View.GONE);
+									mLvDownload.setVisibility(View.VISIBLE);
+								}
+								break;
+							case R.id.btn_start_pause_download:
+								break;
+
+							default:
+								break;
+						}
+					}
+				});
 			}
 		}, mLvDownload, mImageLoader);
 		mLvDownload.setAdapter(mLocalDownLoadAdapter);
 		mLvDownload.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				FileStateModel fileState = (FileStateModel) parent.getAdapter().getItem(position);
-				if (null == fileState || StringUtil.isNullOrEmpty(fileState.getFileName())
-						|| StringUtil.isNullOrEmpty(fileState.getUrl()) || fileState.isComplete()) {
-					return;
-				}
-				mService.switchState(fileState.getFileName(), fileState.getUrl());
+			public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
+				UIUtil.limitReClick(LocalDownActivity.class.getName(), DELAY_TIME, new ActionListener() {
+
+					@Override
+					public void doAction() {
+						FileStateModel fileState = (FileStateModel) parent.getAdapter().getItem(position);
+						if (null == fileState || StringUtil.isNullOrEmpty(fileState.getFileName())
+								|| StringUtil.isNullOrEmpty(fileState.getUrl()) || fileState.isComplete()) {
+							return;
+						}
+						mService.switchState(fileState.getFileName(), fileState.getUrl());
+					}
+				});
 			}
 		});
 	}

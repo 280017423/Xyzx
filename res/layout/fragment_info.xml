@@ -10,10 +10,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@color/tm"
-        android:horizontalSpacing="10dp"
+        android:horizontalSpacing="50dp"
         android:listSelector="@color/tm"
-        android:paddingLeft="1dip"
-        android:paddingRight="1dip"
-        android:verticalSpacing="10dp" />
+        android:paddingLeft="50dip"
+        android:paddingRight="50dip"
+        android:paddingTop="30dp"
+        android:verticalSpacing="20dp" />
 
 </RelativeLayout>

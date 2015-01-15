@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp" >
+
+    <CheckBox
+        android:id="@+id/cb_no_notice"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:button="@drawable/cb_selector"
+        android:checked="false"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/no_notice"
+        android:textColor="#89BC39"
+        android:textSize="16sp" />
+
+</LinearLayout>

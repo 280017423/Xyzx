@@ -2,17 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white" >
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants" >
 
     <ImageView
         android:id="@+id/info_center_img"
-        android:layout_width="546px"
-        android:layout_height="275px"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:layout_marginLeft="5dip"
-        android:layout_marginTop="35dip"
-        android:contentDescription="@null" />
+        android:background="@color/new_green"
+        android:contentDescription="@null"
+        android:padding="1dp"
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/info_center_tv"
@@ -27,8 +29,8 @@
         android:textColor="@android:color/white"
         android:textSize="22sp" />
 
-    <ImageView
-        android:id="@+id/iv_down_icon"
+    <Button
+        android:id="@+id/btn_down_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -36,7 +38,6 @@
         android:layout_gravity="center"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/icon_download_bg"
-        android:contentDescription="@null" />
+        android:background="@drawable/icon_download_bg" />
 
 </RelativeLayout>

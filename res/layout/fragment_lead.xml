@@ -8,15 +8,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:columnWidth="180sp"
         android:divider="#00000000"
         android:gravity="center"
-        android:horizontalSpacing="1sp"
-        android:numColumns="auto_fit"
         android:paddingBottom="@dimen/Lead_Bottom"
         android:paddingTop="@dimen/News_Bottom"
-        android:scrollbars="vertical"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="30dip" />
+        android:scrollbars="vertical" />
 
 </RelativeLayout>
