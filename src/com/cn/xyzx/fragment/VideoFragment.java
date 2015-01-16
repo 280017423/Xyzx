@@ -59,8 +59,14 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 	}
 
 	private void getLeaderList() {
-		if (isAdded()) {
-			((InfoCenterActivity) getActivity()).showLoading();
+		List<VideoModel> list = DbDao.getModels(VideoModel.class);
+		if (null == list || list.isEmpty()) {
+			if (isAdded()) {
+				((InfoCenterActivity) getActivity()).showLoading();
+			}
+		} else {
+			mLeaderList.addAll(list);
+			mAdapter.notifyDataSetChanged();
 		}
 		new AsyncLogin().execute();
 	}

@@ -63,8 +63,14 @@ public class HonorFragment extends FragmentBase implements OnItemClickListener {
 	}
 
 	private void getLeaderList() {
-		if (isAdded()) {
-			((InfoCenterActivity) getActivity()).showLoading();
+		List<HonorModel> list = DbDao.getModels(HonorModel.class);
+		if (null == list || list.isEmpty()) {
+			if (isAdded()) {
+				((InfoCenterActivity) getActivity()).showLoading();
+			}
+		} else {
+			mLeaderList.addAll(list);
+			mAdapter.notifyDataSetChanged();
 		}
 		new AsyncLogin().execute();
 	}

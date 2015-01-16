@@ -62,8 +62,14 @@ public class LeadFragment extends FragmentBase implements OnItemClickListener {
 	}
 
 	private void getLeaderList() {
-		if (isAdded()) {
-			((InfoCenterActivity) getActivity()).showLoading();
+		List<LeaderModel> list = DbDao.getModels(LeaderModel.class);
+		if (null == mLeaderList || mLeaderList.isEmpty()) {
+			if (isAdded()) {
+				((InfoCenterActivity) getActivity()).showLoading();
+			}
+		} else {
+			mLeaderList.addAll(list);
+			mAdapter.notifyDataSetChanged();
 		}
 		new AsyncLogin().execute();
 	}

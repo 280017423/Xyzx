@@ -63,8 +63,14 @@ public class ResponsibilityFragment extends FragmentBase implements OnItemClickL
 	}
 
 	private void getLeaderList() {
-		if (isAdded()) {
-			((InfoCenterActivity) getActivity()).showLoading();
+		List<ResponsibilityModel> list = DbDao.getModels(ResponsibilityModel.class);
+		if (null == list || list.isEmpty()) {
+			if (isAdded()) {
+				((InfoCenterActivity) getActivity()).showLoading();
+			}
+		} else {
+			mLeaderList.addAll(list);
+			mAdapter.notifyDataSetChanged();
 		}
 		new AsyncLogin().execute();
 	}

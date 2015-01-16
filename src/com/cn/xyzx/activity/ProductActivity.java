@@ -46,7 +46,12 @@ public class ProductActivity extends FragmentActivityBase implements OnClickList
 	}
 
 	private void getProduct() {
-		showLoadingUpView(mLoadingUpView);
+		List<ProductCateModel> list = DbDao.getModels(ProductCateModel.class);
+		if (null == list || list.isEmpty()) {
+			showLoadingUpView(mLoadingUpView);
+		} else {
+			intFragments(list);
+		}
 		new AsyncLogin().execute();
 	}
 

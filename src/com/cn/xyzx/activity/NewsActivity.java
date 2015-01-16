@@ -46,7 +46,12 @@ public class NewsActivity extends FragmentActivityBase implements OnClickListene
 	}
 
 	private void getProduct() {
-		showLoadingUpView(mLoadingUpView);
+		List<NewsCateModel> list = DbDao.getModels(NewsCateModel.class);
+		if (null == list || list.isEmpty()) {
+			showLoadingUpView(mLoadingUpView);
+		} else {
+			intFragments(list);
+		}
 		new AsyncLogin().execute();
 	}
 

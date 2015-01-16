@@ -53,7 +53,7 @@ public class LineTabIndicator extends HorizontalScrollView {
 	private float mIndicatorHeight = 1.5f;
 	private float mUnderlineHeight = 1.0f;
 	private int mDividerPadding;
-	private int mTabPadding = 24;
+	private int mTabPadding = 30;
 	private int mDividerWidth = 1;
 	private int mLastScrollX;
 
