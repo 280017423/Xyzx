@@ -2,6 +2,7 @@ package com.cn.xyzx.adapter;
 
 import java.util.List;
 
+import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
@@ -84,6 +85,12 @@ public class VideoAdapter extends BaseAdapter {
 		mImageDownloader.displayImage(productModel.getPicture(), holder.imageView,
 				mOptions.showImageForEmptyUri(R.drawable.news_default).build());
 		holder.textView.setText(productModel.getTitle());
+		int status = productModel.getHasDownload();
+		if (1 == status) {
+			holder.mIvDownload.setVisibility(View.GONE);
+		} else {
+			holder.mIvDownload.setVisibility(View.VISIBLE);
+		}
 
 		LayoutParams layoutParams = holder.imageView.getLayoutParams();
 		layoutParams.width = (mWidth - UIUtil.dip2px(mContext, SPACE_VALUE) * (NUM_COLUMNS + 1)) / NUM_COLUMNS;

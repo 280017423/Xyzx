@@ -19,5 +19,11 @@
     <string name="video_has_download">该视频已经下载</string>
     <string name="status_has_download">已下载</string>
     <string name="status_download_fail">下载失败</string>
+    <string name="feedback_tel_hint">请输入您的手机号</string>
+    <string name="feedback_hint">感谢您对我们提出的反馈,限制输入100字以内</string>
+    <string name="feedback_empty">请输入反馈内容再提交</string>
+    <string name="tel_empty">请输入手机号码</string>
+    <string name="thanks_for_feedback">感谢您的反馈</string>
+    <string name="submit">提交</string>
 
 </resources>

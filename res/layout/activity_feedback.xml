@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/infocenter_backgroup" >
+
+    <EditText
+        android:id="@+id/edt_feedback_tel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/edt_teacher_msg_shape"
+        android:gravity="left"
+        android:hint="@string/feedback_tel_hint"
+        android:inputType="phone"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textSize="@dimen/size_2" />
+
+    <EditText
+        android:id="@+id/edt_feedback_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edt_feedback_tel"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edt_teacher_msg_shape"
+        android:gravity="left"
+        android:hint="@string/feedback_hint"
+        android:inputType="text"
+        android:maxLength="100"
+        android:minHeight="200dp"
+        android:padding="10dp"
+        android:textSize="@dimen/size_2" />
+
+    <Button
+        android:id="@+id/btn_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edt_feedback_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_submit_shape"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:padding="10dp"
+        android:text="@string/submit"
+        android:textSize="@dimen/size_1" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/Bottom_Hight"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bottom_backup" >
+
+        <ImageButton
+            android:id="@+id/ibtn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:src="@drawable/bottom_back" />
+    </RelativeLayout>
+
+</RelativeLayout>

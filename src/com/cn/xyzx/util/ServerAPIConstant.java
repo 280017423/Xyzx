@@ -24,8 +24,12 @@ public class ServerAPIConstant {
 	public static final String API_GEI_SINGLE_PAGE = "api/singlePage.php?id=";
 	public static final String API_GEI_LEADER_LIST = "api/leadStyle_list.php";
 	public static final String API_GEI_VIDEO_LIST = "api/video_list.php";
+	public static final String API_GEI_FILE_LIST = "api/file_list.php";
+	public static final String API_FEED_BACK = "api/feedback.php";
 
 	public static final String KEY_CATE = "cate";
+	public static final String KEY_TEL = "tel";
+	public static final String KEY_CONTENT = "content";
 	public static final String KEY_LIST = "list";
 	public static final String KEY_CATE_ID = "cate_id";
 

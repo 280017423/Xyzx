@@ -5,8 +5,7 @@
     android:background="@drawable/bg_rhjt"
     android:gravity="center"
     android:paddingBottom="5dip"
-    android:paddingLeft="13dip"
-    android:paddingRight="0px" >
+    android:paddingLeft="13dip" >
 
     <LinearLayout
         android:id="@+id/linearLayout1"

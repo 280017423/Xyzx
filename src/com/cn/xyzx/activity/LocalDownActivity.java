@@ -68,7 +68,7 @@ public class LocalDownActivity extends ActivityBase implements OnClickListener {
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
 		mFileStateModels.clear();
 		mFileStateModels.addAll(DownLoadDao.getFileState());

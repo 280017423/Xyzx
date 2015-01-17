@@ -20,6 +20,7 @@ import com.qianjiang.framework.util.EvtLog;
 import com.qianjiang.framework.util.PackageUtil;
 import com.qianjiang.framework.util.QJActivityManager;
 import com.qianjiang.framework.widget.LoadingUpView;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Activity基类
@@ -35,11 +36,19 @@ public class ActivityBase extends QJActivityBase implements IDialogProtocol {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		verifyPad();
+		// verifyPad();
 		if (isHiddenSystemUi) {
 			UiUtil.hiddenSystemUi(this);
 		}
 		QJActivityManager.getInstance().pushActivity(this);
+		MobclickAgent.onPageStart("");
+		MobclickAgent.setDebugMode(false);
+		// SDK在统计Fragment时，需要关闭Activity自带的页面统计，
+		// 然后在每个页面中重新集成页面统计的代码(包括调用了 onResume 和 onPause 的Activity)。
+		MobclickAgent.openActivityDurationTrack(false);
+		// MobclickAgent.setAutoLocation(true);
+		// MobclickAgent.setSessionContinueMillis(1000);
+		MobclickAgent.updateOnlineConfig(this);
 	}
 
 	private void verifyPad() {
@@ -51,19 +60,24 @@ public class ActivityBase extends QJActivityBase implements IDialogProtocol {
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
+		MobclickAgent.onPageStart("");
+		MobclickAgent.onResume(this);
 	}
 
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		super.onPause();
+		MobclickAgent.onPageEnd("");
+		MobclickAgent.onPause(this);
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		QJActivityManager.getInstance().popActivity(this);
+		MobclickAgent.onPageStart("");
 	}
 
 	/**

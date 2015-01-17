@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/infocenter_backgroup" >
 
     <ListView
         android:id="@+id/lead_listview"
@@ -9,9 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:divider="#00000000"
+        android:dividerHeight="10dp"
         android:gravity="center"
-        android:paddingBottom="@dimen/Lead_Bottom"
-        android:paddingTop="@dimen/News_Bottom"
+        android:listSelector="@android:color/transparent"
         android:scrollbars="vertical" />
 
 </RelativeLayout>

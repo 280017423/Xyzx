@@ -104,10 +104,16 @@ public class LocalDownLoadAdapter extends BaseAdapter {
 		holder.mTvFileName.setText(StringUtil.isNullOrEmpty(title) ? name : title);
 		int state = fileStateModel.getState();
 		if (0 == state) {
-			// 下载完成的文件，进度条被隐藏
-			holder.mProgressBar.setVisibility(View.GONE);
-			holder.mTvPercent.setText(R.string.status_has_download);
 			holder.mBtnPauseOrStart.setVisibility(View.GONE);
+			if (fileStateModel.getCompleteSize() == fileStateModel.getFileSize()) {
+				if (fileStateModel.getCompleteSize() == 0) {
+					holder.mProgressBar.setVisibility(View.VISIBLE);
+					holder.mTvPercent.setText(R.string.status_download_fail);
+				} else {
+					holder.mProgressBar.setVisibility(View.GONE);
+					holder.mTvPercent.setText(R.string.status_has_download);
+				}
+			}
 		} else if (1 == state) {
 			// 如果状态是1,则是正在下载
 			int completeSize = fileStateModel.getCompleteSize();

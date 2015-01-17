@@ -6,5 +6,7 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="libs/bugly_1.0.4_release.jar"/>
+	<classpathentry kind="lib" path="libs/umeng-analytics-v5.2.4.jar"/>
+	<classpathentry kind="lib" path="libs/umeng-update-v2.4.2.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 
 import com.cn.xyzx.R;
+import com.umeng.analytics.MobclickAgent;
 
 public class LoadingActivity extends ActivityBase {
 	private static final int DISPLAY_TIME = 3000;
@@ -16,6 +17,7 @@ public class LoadingActivity extends ActivityBase {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_loading);
+		MobclickAgent.updateOnlineConfig(this);
 		jumpToMain();
 	}
 

@@ -20,8 +20,10 @@ import com.cn.xyzx.R;
 import com.cn.xyzx.activity.InfoCenterActivity;
 import com.cn.xyzx.activity.VideoPlayerActivity;
 import com.cn.xyzx.adapter.VideoAdapter;
+import com.cn.xyzx.bean.FileStateModel;
 import com.cn.xyzx.bean.VideoModel;
 import com.cn.xyzx.db.DbDao;
+import com.cn.xyzx.db.DownLoadDao;
 import com.cn.xyzx.req.VideoReq;
 import com.cn.xyzx.util.ActionResult;
 import com.qianjiang.framework.app.QJActivityBase.ActionListener;
@@ -54,11 +56,11 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 		mGvHonor.setNumColumns(3);
 		mGvHonor.setAdapter(mAdapter);
 		mGvHonor.setOnItemClickListener(this);
-		getLeaderList();
+		getVideoList();
 		return mView;
 	}
 
-	private void getLeaderList() {
+	private void getVideoList() {
 		List<VideoModel> list = DbDao.getModels(VideoModel.class);
 		if (null == list || list.isEmpty()) {
 			if (isAdded()) {
@@ -66,6 +68,7 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 			}
 		} else {
 			mLeaderList.addAll(list);
+			refreashVideoList();
 			mAdapter.notifyDataSetChanged();
 		}
 		new AsyncLogin().execute();
@@ -82,6 +85,7 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 			}
 			mLeaderList.clear();
 			mLeaderList.addAll(DbDao.getModels(VideoModel.class));
+			refreashVideoList();
 			mAdapter.notifyDataSetChanged();
 			if (isAdded()) {
 				((InfoCenterActivity) getActivity()).dismissLoading();
@@ -128,13 +132,36 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 								|| StringUtil.isNullOrEmpty(model.getVideoUrl())) {
 							return;
 						}
-						((InfoCenterActivity) getActivity()).startDownload(model.getFileName(), model.getTitle(),
-								model.getVideoUrl(), model.getPicture());
+						int status = ((InfoCenterActivity) getActivity()).startDownload(model.getFileName(),
+								model.getTitle(), model.getVideoUrl(), model.getPicture());
+						if (-1 == status) {
+							toast(getString(R.string.video_has_download));
+						} else if (-2 == status) {
+							toast(getString(R.string.video_has_download));
+						}
+						refreashVideoList();
 						break;
 					default:
 						break;
 				}
 			}
 		});
+	}
+
+	private void refreashVideoList() {
+		List<FileStateModel> fileStateModels = DownLoadDao.getFileState();
+		if (null != mLeaderList && !mLeaderList.isEmpty() && null != fileStateModels && !fileStateModels.isEmpty()) {
+			for (int i = 0; i < mLeaderList.size(); i++) {
+				for (int j = 0; j < fileStateModels.size(); j++) {
+					VideoModel videoModel = mLeaderList.get(i);
+					FileStateModel fileStateModel = fileStateModels.get(j);
+					String url = fileStateModel.getUrl();
+					if (!StringUtil.isNullOrEmpty(url) && url.equals(videoModel.getVideoUrl())) {
+						videoModel.setHasDownload(1);
+					}
+				}
+			}
+			mAdapter.notifyDataSetChanged();
+		}
 	}
 }

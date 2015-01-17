@@ -20,6 +20,8 @@ import android.widget.SimpleAdapter;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.widget.CustomDialog.Builder;
+import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UpdateConfig;
 
 public class HomeActivity extends ActivityBase implements OnItemClickListener, OnClickListener {
 
@@ -33,6 +35,11 @@ public class HomeActivity extends ActivityBase implements OnItemClickListener, O
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+		// 友盟检查更新
+		UmengUpdateAgent.update(this);
+		UmengUpdateAgent.setUpdateOnlyWifi(false);
+		UmengUpdateAgent.setUpdateCheckConfig(true);
+		UpdateConfig.setDebug(true);
 		initVariables();
 		initViews();
 	}
@@ -86,13 +93,13 @@ public class HomeActivity extends ActivityBase implements OnItemClickListener, O
 				break;
 			// 学习中心
 			case 3:
+				infoCenter.setClass(this, StudyCenterActivity.class);
+				startActivity(infoCenter);
 				break;
 			// 交流中心
 			case 4:
-				bundle.putInt("parent_id", 2);
-				infoCenter.putExtras(bundle);
-				infoCenter.setClass(this, InfoCenterActivity.class);
-				this.startActivity(infoCenter);
+				infoCenter.setClass(this, FeedbackActivity.class);
+				startActivity(infoCenter);
 				break;
 			// 我的商务
 			case 5:

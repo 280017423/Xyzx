@@ -54,6 +54,8 @@ public class DownloadService extends Service {
 				}
 			} else if (msg.what == -1) {
 				Toast.makeText(DownloadService.this, R.string.status_download_fail, Toast.LENGTH_LONG).show();
+			} else if (msg.what == -2) {
+				// 表示获取文件大小失败，直接删除本地记录
 			}
 		}
 	};
@@ -82,11 +84,23 @@ public class DownloadService extends Service {
 		super.onStart(intent, startId);
 	}
 
-	public void startDownload(final String fileName, final String title, final String downPath, final String picUrl) {
+	/**
+	 * 开始下载视频文件
+	 * 
+	 * @param fileName
+	 *            视频文件名字
+	 * @param title
+	 *            视频标题
+	 * @param downPath
+	 *            下载路径
+	 * @param picUrl
+	 *            显示图片路径
+	 * @return int 状态码 -1表示已经存在， -2表示已经正在下载 0，添加下载成功
+	 */
+	public int startDownload(final String fileName, final String title, final String downPath, final String picUrl) {
 		// 先从数据库中判断，这个文件是否已经在下载列表了
 		if (DownLoadDao.hasFile(fileName)) {
-			Toast.makeText(getApplicationContext(), R.string.video_has_download, Toast.LENGTH_SHORT).show();
-			return;
+			return -1;
 		}
 		String savePath = ServerAPIConstant.getDownloadPath();// 保存地址
 		mDownloader = mDownloadersMap.get(downPath);
@@ -95,7 +109,7 @@ public class DownloadService extends Service {
 			mDownloadersMap.put(downPath, mDownloader);// 创建完一个新的下载器,必须把它加入到下载器集合里去
 		}
 		if (mDownloader.isdownloading()) {
-			return;
+			return -2;
 		}
 		// LoadInfo是一个实体类,里面封装了一些下载所需要的信息,每个loadinfo对应1个下载器
 		new Thread(new Runnable() {
@@ -112,9 +126,12 @@ public class DownloadService extends Service {
 					mCompleteSizes.put(downPath, loadInfo.getComplete());
 					mFileSizes.put(downPath, fileState.getFileSize());
 					mDownloader.download();
+				} else {
+					mHandler.sendEmptyMessage(-2);
 				}
 			}
 		}).start();
+		return 0;
 	}
 
 	/**
@@ -138,6 +155,8 @@ public class DownloadService extends Service {
 				if (null != loadInfo) {
 					mCompleteSizes.put(downPath, loadInfo.getComplete());
 					mDownloader.download();
+				} else {
+					mHandler.sendEmptyMessage(-2);
 				}
 			}
 		}).start();

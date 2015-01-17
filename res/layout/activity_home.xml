@@ -2,26 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.xyzx.activity.HomeActivity" >
-
-    <GridView
-        android:id="@+id/home_gridview"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/screen_height"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/home_background04"
-        android:columnWidth="150sp"
-        android:gravity="center"
-        android:horizontalSpacing="1sp"
-        android:numColumns="auto_fit"
-        android:paddingBottom="@dimen/home_GridView_Bottom"
-        android:paddingLeft="@dimen/home_GridView_Left"
-        android:paddingRight="@dimen/home_GridView_Right"
-        android:paddingTop="@dimen/home_GridView_Top"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="40sp" />
+    android:background="@drawable/infocenter_backgroup" >
 
     <RelativeLayout
+        android:id="@+id/rl_bottom_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/Bottom_Hight"
         android:layout_alignParentBottom="true"
@@ -80,5 +64,22 @@
             android:paddingRight="10sp"
             android:src="@drawable/bottom_back" />
     </RelativeLayout>
+
+    <GridView
+        android:id="@+id/home_gridview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/rl_bottom_title"
+        android:background="@drawable/home_background04"
+        android:columnWidth="150sp"
+        android:gravity="center"
+        android:horizontalSpacing="1sp"
+        android:numColumns="auto_fit"
+        android:paddingBottom="@dimen/home_GridView_Bottom"
+        android:paddingLeft="@dimen/home_GridView_Left"
+        android:paddingRight="@dimen/home_GridView_Right"
+        android:paddingTop="@dimen/home_GridView_Top"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="40sp" />
 
 </RelativeLayout>
