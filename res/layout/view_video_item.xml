@@ -29,15 +29,18 @@
         android:textColor="@android:color/white"
         android:textSize="22sp" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_down_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_gravity="center"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/icon_download_bg" />
+        android:background="@null"
+        android:clickable="true"
+        android:contentDescription="@null"
+        android:padding="10dp"
+        android:scaleType="center"
+        android:src="@drawable/icon_download_bg" >
+    </ImageButton>
 
 </RelativeLayout>

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/local_download_background"
+    android:background="@drawable/view_yuan_morelist"
     android:descendantFocusability="blocksDescendants" >
 
     <RelativeLayout
@@ -12,8 +12,8 @@
 
         <ImageView
             android:id="@+id/iv_file_icon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:contentDescription="@null" />
@@ -37,9 +37,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btn_start_pause_download"
-                android:background="@drawable/arrow_progress_text_background"
+                android:background="@drawable/btn_submit_shape"
+                android:padding="5dp"
                 android:text="删除"
-                android:textColor="@color/white" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_2" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -66,7 +68,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/pb_download"
                 android:padding="5dp"
-                android:textColor="@color/white" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_2" />
 
             <TextView
                 android:id="@+id/tv_file_name"
@@ -76,7 +79,8 @@
                 android:ellipsize="end"
                 android:padding="5dp"
                 android:singleLine="true"
-                android:textColor="@color/white" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_2" />
         </RelativeLayout>
     </RelativeLayout>
 

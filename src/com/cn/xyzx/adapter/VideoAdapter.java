@@ -2,7 +2,6 @@ package com.cn.xyzx.adapter;
 
 import java.util.List;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
@@ -11,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -72,7 +71,7 @@ public class VideoAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = View.inflate(mContext, R.layout.view_video_item, null);
 			holder.imageView = (ImageView) convertView.findViewById(R.id.info_center_img);
-			holder.mIvDownload = (Button) convertView.findViewById(R.id.btn_down_icon);
+			holder.mIvDownload = (ImageButton) convertView.findViewById(R.id.btn_down_icon);
 			holder.textView = (TextView) convertView.findViewById(R.id.info_center_tv);
 			convertView.setTag(holder);
 		} else {
@@ -102,6 +101,6 @@ public class VideoAdapter extends BaseAdapter {
 	final class GridViewHolder {
 		ImageView imageView;
 		TextView textView;
-		Button mIvDownload;
+		ImageButton mIvDownload;
 	}
 }

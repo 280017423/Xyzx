@@ -118,6 +118,9 @@ public class DownloadService extends Service {
 			public void run() {
 				LoadInfoModel loadInfo = mDownloader.getDownloaderInfors();
 				if (null != loadInfo) {
+					if (loadInfo.getComplete() != 0 && loadInfo.getComplete() == loadInfo.getFileSize()) {
+						return;
+					}
 					FileStateModel fileState = new FileStateModel(
 							fileName, downPath, loadInfo.getComplete(), loadInfo.getFileSize(), 1);
 					fileState.setTitle(title);
@@ -153,6 +156,9 @@ public class DownloadService extends Service {
 			public void run() {
 				LoadInfoModel loadInfo = mDownloader.getDownloaderInfors();
 				if (null != loadInfo) {
+					if (loadInfo.getComplete() != 0 && loadInfo.getComplete() == loadInfo.getFileSize()) {
+						return;
+					}
 					mCompleteSizes.put(downPath, loadInfo.getComplete());
 					mDownloader.download();
 				} else {

@@ -9,13 +9,16 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginBottom="@dimen/Bottom_Hight"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:cacheColorHint="@android:color/transparent"
         android:clickable="true"
         android:divider="@android:color/transparent"
-        android:dividerHeight="0.7dp"
+        android:dividerHeight="20dp"
         android:fadingEdge="none"
         android:fastScrollEnabled="true"
         android:listSelector="@android:color/transparent"
+        android:paddingTop="20dp"
         android:scrollbars="none" />
 
     <TextView

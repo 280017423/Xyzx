@@ -39,7 +39,7 @@ public class HomeActivity extends ActivityBase implements OnItemClickListener, O
 		UmengUpdateAgent.update(this);
 		UmengUpdateAgent.setUpdateOnlyWifi(false);
 		UmengUpdateAgent.setUpdateCheckConfig(true);
-		UpdateConfig.setDebug(true);
+		UpdateConfig.setDebug(false);
 		initVariables();
 		initViews();
 	}

@@ -67,11 +67,19 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 				((InfoCenterActivity) getActivity()).showLoading();
 			}
 		} else {
+			mLeaderList.clear();
 			mLeaderList.addAll(list);
 			refreashVideoList();
 			mAdapter.notifyDataSetChanged();
 		}
 		new AsyncLogin().execute();
+	}
+
+	@Override
+	public void onResume() {
+		refreashVideoList();
+		mAdapter.notifyDataSetChanged();
+		super.onResume();
 	}
 
 	class AsyncLogin extends AsyncTask<Void, Void, ActionResult> {
@@ -150,10 +158,11 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 
 	private void refreashVideoList() {
 		List<FileStateModel> fileStateModels = DownLoadDao.getFileState();
-		if (null != mLeaderList && !mLeaderList.isEmpty() && null != fileStateModels && !fileStateModels.isEmpty()) {
+		if (null != mLeaderList && !mLeaderList.isEmpty() && null != fileStateModels) {
 			for (int i = 0; i < mLeaderList.size(); i++) {
+				VideoModel videoModel = mLeaderList.get(i);
+				videoModel.setHasDownload(0); // 初始化未下载
 				for (int j = 0; j < fileStateModels.size(); j++) {
-					VideoModel videoModel = mLeaderList.get(i);
 					FileStateModel fileStateModel = fileStateModels.get(j);
 					String url = fileStateModel.getUrl();
 					if (!StringUtil.isNullOrEmpty(url) && url.equals(videoModel.getVideoUrl())) {

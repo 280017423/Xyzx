@@ -77,6 +77,7 @@ public class Downloader {
 		if (isFirst(downPath)) {
 			init();// 第1次下载要进行初始化
 			if (fileSize <= 0) {
+				reset();
 				return null;
 			}
 			range = this.fileSize / this.threadCount;// 设置每个线程应该下载的长度
