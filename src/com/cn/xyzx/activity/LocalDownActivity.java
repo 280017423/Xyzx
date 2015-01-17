@@ -29,7 +29,7 @@ import com.cn.xyzx.util.ServerAPIConstant;
 import com.qianjiang.framework.util.StringUtil;
 import com.qianjiang.framework.util.UIUtil;
 
-public class LocalDownActivity extends ActivityBase {
+public class LocalDownActivity extends ActivityBase implements OnClickListener {
 
 	private static final int DELAY_TIME = 2000;
 	private ListView mLvDownload;
@@ -193,4 +193,15 @@ public class LocalDownActivity extends ActivityBase {
 		super.onDestroy();
 	}
 
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.ibtn_back:
+				finish();
+				break;
+
+			default:
+				break;
+		}
+	}
 }

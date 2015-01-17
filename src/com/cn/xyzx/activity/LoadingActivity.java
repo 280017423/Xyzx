@@ -3,14 +3,13 @@ package com.cn.xyzx.activity;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
 import com.cn.xyzx.R;
 
-public class LoadingActivity extends Activity {
+public class LoadingActivity extends ActivityBase {
 	private static final int DISPLAY_TIME = 3000;
 
 	@Override

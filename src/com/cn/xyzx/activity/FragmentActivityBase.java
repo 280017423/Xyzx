@@ -1,6 +1,7 @@
 package com.cn.xyzx.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.widget.TextView;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.util.ActionResult;
+import com.cn.xyzx.util.UiUtil;
 import com.qianjiang.framework.imageloader.core.ImageLoader;
 import com.qianjiang.framework.util.StringUtil;
 import com.qianjiang.framework.widget.LoadingUpView;
@@ -20,6 +22,12 @@ import com.qianjiang.framework.widget.LoadingUpView;
 public class FragmentActivityBase extends FragmentActivity {
 
 	protected ImageLoader mImageLoader = ImageLoader.getInstance();
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		UiUtil.hiddenSystemUi(this);
+	}
 
 	/**
 	 * toast显示错误消息

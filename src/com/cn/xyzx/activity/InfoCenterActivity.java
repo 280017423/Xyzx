@@ -10,7 +10,6 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -30,7 +29,7 @@ import com.cn.xyzx.util.ServerAPIConstant;
 import com.cn.xyzx.widget.LineTabIndicator;
 import com.qianjiang.framework.widget.LoadingUpView;
 
-public class InfoCenterActivity extends FragmentActivity implements OnClickListener {
+public class InfoCenterActivity extends FragmentActivityBase implements OnClickListener {
 	private ViewPager mViewPager;
 	private LineTabIndicator mLineTabIndicator;
 	private InfoFragmentAdapter mPageAdapter;

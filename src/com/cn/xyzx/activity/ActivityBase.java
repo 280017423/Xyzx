@@ -10,11 +10,14 @@ import com.cn.xyzx.R;
 import com.cn.xyzx.listener.IDialogProtocol;
 import com.cn.xyzx.util.ActionResult;
 import com.cn.xyzx.util.DialogManager;
+import com.cn.xyzx.util.UiUtil;
 import com.cn.xyzx.widget.CustomDialog.Builder;
 import com.qianjiang.framework.app.QJActivityBase;
 import com.qianjiang.framework.imageloader.core.DisplayImageOptions;
 import com.qianjiang.framework.imageloader.core.ImageLoader;
 import com.qianjiang.framework.imageloader.core.display.SimpleBitmapDisplayer;
+import com.qianjiang.framework.util.EvtLog;
+import com.qianjiang.framework.util.PackageUtil;
 import com.qianjiang.framework.util.QJActivityManager;
 import com.qianjiang.framework.widget.LoadingUpView;
 
@@ -27,11 +30,24 @@ public class ActivityBase extends QJActivityBase implements IDialogProtocol {
 	protected ImageLoader mImageLoader = ImageLoader.getInstance();
 	protected DisplayImageOptions mOptions = new DisplayImageOptions.Builder().cacheInMemory().cacheOnDisc()
 			.displayer(new SimpleBitmapDisplayer()).build();
+	protected boolean isHiddenSystemUi = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		verifyPad();
+		if (isHiddenSystemUi) {
+			UiUtil.hiddenSystemUi(this);
+		}
 		QJActivityManager.getInstance().pushActivity(this);
+	}
+
+	private void verifyPad() {
+		if (!android.os.Build.MODEL.equals(PackageUtil.getConfigString("build_model"))) {
+			EvtLog.d("aaa", PackageUtil.getConfigString("build_model"));
+			EvtLog.d("aaa", android.os.Build.MODEL);
+			finish();
+		}
 	}
 
 	@Override

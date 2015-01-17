@@ -30,6 +30,7 @@ public class VideoPlayerActivity extends ActivityBase implements OnPreparedListe
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		isHiddenSystemUi = false;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_simple_videoplayer);
 		initVariables();

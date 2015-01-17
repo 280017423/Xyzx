@@ -63,6 +63,9 @@
         <meta-data
             android:name="appSign"
             android:value="xyzx" />
+        <meta-data
+            android:name="build_model"
+            android:value="rk30sdk" />
 
         <activity
             android:name="com.cn.xyzx.activity.LoadingActivity"
