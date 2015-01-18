@@ -1,8 +1,10 @@
 package com.cn.xyzx.activity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,10 +13,11 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.adapter.DocumentAdapter;
@@ -23,6 +26,7 @@ import com.cn.xyzx.db.DbDao;
 import com.cn.xyzx.download.HttpDownloader;
 import com.cn.xyzx.req.DocumentReq;
 import com.cn.xyzx.util.ActionResult;
+import com.cn.xyzx.util.OpenFileUtil;
 import com.cn.xyzx.util.ServerAPIConstant;
 import com.cn.xyzx.widget.CustomProgressDialog;
 import com.cn.xyzx.widget.CustomProgressDialog.DIALOG_DEFAULT_LAYOUT_TYPE;
@@ -44,12 +48,14 @@ public class StudyCenterActivity extends ActivityBase implements OnClickListener
 	private CustomProgressDialog mCustomProgressDialog;
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
-			mCustomProgressDialog.dismiss();
+
 			switch (msg.what) {
 				case DOWN_LOAD_SUCCESS:
+					mCustomProgressDialog.dismiss();
 					toast("下载成功");
 					break;
 				case DOWN_LOAD_FAIL:
+					mCustomProgressDialog.dismiss();
 					toast("下载失败");
 					break;
 				case DOWN_LOAD_ING:
@@ -151,7 +157,17 @@ public class StudyCenterActivity extends ActivityBase implements OnClickListener
 				|| StringUtil.isNullOrEmpty(model.getVideoUrl())) {
 			return;
 		}
-
+		final String savePath = ServerAPIConstant.getDownloadPath();// 保存地址
+		final File tempFile = new File(savePath + model.getFileName());
+		if (null != tempFile && tempFile.exists()) {
+			Intent intent = OpenFileUtil.openFile(tempFile, StudyCenterActivity.this);
+			if (null != intent) {
+				startActivity(intent);
+			} else {
+				Toast.makeText(StudyCenterActivity.this, getString(R.string.no_app_found), Toast.LENGTH_LONG).show();
+			}
+			return;
+		}
 		mCustomProgressDialog.show();
 		ProgressBar progressBar = mCustomProgressDialog.getProgressBar();
 		progressBar.setProgress(0);
@@ -161,7 +177,7 @@ public class StudyCenterActivity extends ActivityBase implements OnClickListener
 			@Override
 			public void run() {
 				HttpDownloader downloader = new HttpDownloader();
-				String savePath = ServerAPIConstant.getDownloadPath();// 保存地址
+
 				downloader.downFile(model.getVideoUrl(), savePath, model.getFileName(), new DownloadProgressListener() {
 
 					@Override
@@ -183,6 +199,21 @@ public class StudyCenterActivity extends ActivityBase implements OnClickListener
 					@Override
 					public void onDownloadComplete() {
 						mHandler.sendEmptyMessage(DOWN_LOAD_SUCCESS);
+						if (null != tempFile && tempFile.exists()) {
+							StudyCenterActivity.this.runOnUiThread(new Runnable() {
+
+								@Override
+								public void run() {
+									Intent intent = OpenFileUtil.openFile(tempFile, StudyCenterActivity.this);
+									if (null != intent) {
+										startActivity(intent);
+									} else {
+										Toast.makeText(StudyCenterActivity.this, getString(R.string.no_app_found),
+												Toast.LENGTH_LONG).show();
+									}
+								}
+							});
+						}
 					}
 				});
 			}

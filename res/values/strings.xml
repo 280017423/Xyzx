@@ -25,5 +25,6 @@
     <string name="tel_empty">请输入手机号码</string>
     <string name="thanks_for_feedback">感谢您的反馈</string>
     <string name="submit">提交</string>
+    <string name="no_app_found">没有找到对应的应用程序</string>
 
 </resources>
