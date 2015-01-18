@@ -6,16 +6,13 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Video;
-import android.view.Gravity;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.LinearLayout;
 import android.widget.MediaController;
-import android.widget.VideoView;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.bean.VideoModel;
 import com.cn.xyzx.db.DownLoadDao;
 import com.cn.xyzx.util.ServerAPIConstant;
+import com.cn.xyzx.widget.FullScreenVideoView;
 import com.qianjiang.framework.util.EvtLog;
 import com.qianjiang.framework.util.StringUtil;
 import com.qianjiang.framework.widget.LoadingUpView;
@@ -23,8 +20,7 @@ import com.qianjiang.framework.widget.LoadingUpView;
 public class VideoPlayerActivity extends ActivityBase implements OnPreparedListener, OnErrorListener {
 
 	private MediaController mMediaController;
-	private LinearLayout mLlVideoLayout;
-	private VideoView mVideoView;
+	private FullScreenVideoView mVideoView;
 	private VideoModel mVideoModel;
 	private LoadingUpView mLoadingUpView;
 
@@ -67,7 +63,7 @@ public class VideoPlayerActivity extends ActivityBase implements OnPreparedListe
 	}
 
 	private void initView() {
-		mVideoView = new VideoView(this);
+		mVideoView = (FullScreenVideoView) findViewById(R.id.fragmentvideoplayer_videoview);
 		if (DownLoadDao.hasFile(mVideoModel.getFileName())) {
 			mVideoView.setVideoURI(Uri.parse(ServerAPIConstant.getDownloadPath() + mVideoModel.getFileName()));
 		} else {
@@ -82,12 +78,5 @@ public class VideoPlayerActivity extends ActivityBase implements OnPreparedListe
 		mMediaController.setKeepScreenOn(true);
 
 		mVideoView.setMediaController(mMediaController);
-
-		mLlVideoLayout = new LinearLayout(this);
-		mLlVideoLayout.setGravity(Gravity.CENTER);
-		mLlVideoLayout.setOrientation(LinearLayout.VERTICAL);
-		mLlVideoLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		mLlVideoLayout.addView(mVideoView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		setContentView(mLlVideoLayout);
 	}
 }

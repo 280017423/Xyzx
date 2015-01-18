@@ -77,10 +77,23 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 
 	@Override
 	public void onResume() {
+		// if (isAdded()) {
+		// ((InfoCenterActivity)
+		// getActivity()).findViewById(R.id.bt_download).setVisibility(View.VISIBLE);
+		// }
 		refreashVideoList();
 		mAdapter.notifyDataSetChanged();
 		super.onResume();
 	}
+
+	// @Override
+	// public void onPause() {
+	// if (isAdded()) {
+	// ((InfoCenterActivity)
+	// getActivity()).findViewById(R.id.bt_download).setVisibility(View.GONE);
+	// }
+	// super.onPause();
+	// }
 
 	class AsyncLogin extends AsyncTask<Void, Void, ActionResult> {
 
