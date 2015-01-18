@@ -25,20 +25,6 @@
             android:visibility="gone" />
 
         <ImageButton
-            android:id="@+id/bt_Bottom_down"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/bt_Bottom_menu"
-            android:background="#00000000"
-            android:contentDescription="@null"
-            android:onClick="onClick"
-            android:paddingLeft="10sp"
-            android:paddingRight="10sp"
-            android:src="@drawable/bottom_down"
-            android:visibility="gone" />
-
-        <ImageButton
             android:id="@+id/bt_Bottom_about"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -6,7 +6,7 @@
 
     <GridView
         android:id="@+id/info_gridView"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@color/tm"
@@ -16,5 +16,16 @@
         android:paddingRight="50dip"
         android:paddingTop="30dp"
         android:verticalSpacing="20dp" />
+
+    <Button
+        android:id="@+id/btn_local_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/icon_local_download_bg"
+        android:visibility="gone" />
 
 </RelativeLayout>

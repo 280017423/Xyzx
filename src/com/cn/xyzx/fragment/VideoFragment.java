@@ -14,10 +14,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.GridView;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.activity.InfoCenterActivity;
+import com.cn.xyzx.activity.LocalDownActivity;
 import com.cn.xyzx.activity.VideoPlayerActivity;
 import com.cn.xyzx.adapter.VideoAdapter;
 import com.cn.xyzx.bean.FileStateModel;
@@ -36,6 +38,7 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 	private List<VideoModel> mLeaderList;
 	private GridView mGvHonor;
 	private VideoAdapter mAdapter;
+	private Button mBtnLocalDownload;
 
 	public static final VideoFragment newInstance() {
 		VideoFragment fragment = new VideoFragment();
@@ -53,9 +56,12 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View mView = inflater.inflate(R.layout.fragment_info, container, false);
 		mGvHonor = (GridView) mView.findViewById(R.id.info_gridView);
+		mBtnLocalDownload = (Button) mView.findViewById(R.id.btn_local_download);
+		mBtnLocalDownload.setVisibility(View.VISIBLE);
 		mGvHonor.setNumColumns(3);
 		mGvHonor.setAdapter(mAdapter);
 		mGvHonor.setOnItemClickListener(this);
+		mBtnLocalDownload.setOnClickListener(this);
 		getVideoList();
 		return mView;
 	}
@@ -77,23 +83,10 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 
 	@Override
 	public void onResume() {
-		// if (isAdded()) {
-		// ((InfoCenterActivity)
-		// getActivity()).findViewById(R.id.bt_download).setVisibility(View.VISIBLE);
-		// }
 		refreashVideoList();
 		mAdapter.notifyDataSetChanged();
 		super.onResume();
 	}
-
-	// @Override
-	// public void onPause() {
-	// if (isAdded()) {
-	// ((InfoCenterActivity)
-	// getActivity()).findViewById(R.id.bt_download).setVisibility(View.GONE);
-	// }
-	// super.onPause();
-	// }
 
 	class AsyncLogin extends AsyncTask<Void, Void, ActionResult> {
 
@@ -131,12 +124,18 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 
 	@Override
 	public void onClick(final View v) {
-		UIUtil.limitReClick(VideoFragment.class.getName(), new ActionListener() {
 
-			@Override
-			public void doAction() {
-				switch (v.getId()) {
-					case R.id.btn_down_icon:
+		switch (v.getId()) {
+			case R.id.btn_local_download:
+				if (isAdded()) {
+					startActivity(new Intent(getActivity(), LocalDownActivity.class));
+				}
+				break;
+			case R.id.btn_down_icon:
+				UIUtil.limitReClick(VideoFragment.class.getName(), new ActionListener() {
+
+					@Override
+					public void doAction() {
 						if (!isAdded()) {
 							return;
 						}
@@ -162,12 +161,13 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 						} else {
 							toast(getString(R.string.add_video_success));
 						}
-						break;
-					default:
-						break;
-				}
-			}
-		});
+					}
+
+				});
+				break;
+			default:
+				break;
+		}
 	}
 
 	private void refreashVideoList() {

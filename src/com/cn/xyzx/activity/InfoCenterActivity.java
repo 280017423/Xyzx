@@ -105,9 +105,6 @@ public class InfoCenterActivity extends FragmentActivityBase implements OnClickL
 			case R.id.bt_Bottom_back:
 				finish();
 				break;
-			case R.id.bt_download:
-				startActivity(new Intent(InfoCenterActivity.this, LocalDownActivity.class));
-				break;
 			default:
 				break;
 		}

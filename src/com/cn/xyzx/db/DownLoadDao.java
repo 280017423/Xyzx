@@ -165,7 +165,7 @@ public class DownLoadDao {
 			dataManager.close();
 		}
 	}
-	
+
 	/**
 	 * 更新文件的状态，1为正在下载，0为暂停
 	 * **/
@@ -212,10 +212,10 @@ public class DownLoadDao {
 		dataManager.close();
 	}
 
-	public static void deleteFileState(String fileName) {
+	public static void deleteFileState(String url) {
 		DataManager dataManager = DBUtil.getDataManager();
 		dataManager.open();
-		dataManager.delete(FileStateModel.class, "FILE_NAME = ?", new String[] { fileName });
+		dataManager.delete(FileStateModel.class, "URL = ?", new String[] { url });
 		dataManager.close();
 	}
 

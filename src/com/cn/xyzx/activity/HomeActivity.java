@@ -119,9 +119,6 @@ public class HomeActivity extends ActivityBase implements OnItemClickListener, O
 			case R.id.bt_Bottom_back:
 				exit();
 				break;
-
-			case R.id.bt_Bottom_down:
-				break;
 			case R.id.bt_Bottom_about:
 				Intent intentAbout = new Intent();
 				intentAbout.setClass(this, AboutActivity.class);
