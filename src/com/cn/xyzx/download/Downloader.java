@@ -22,7 +22,6 @@ public class Downloader {
 	private String downPath;// 下载路径
 	private String savePath;// 保存路径
 	private String fileName;// 歌曲名字
-	private int threadCount;// 线程数
 	private Handler mHandler;
 	private Context context;
 	private int fileSize;// 文件大小
@@ -45,12 +44,10 @@ public class Downloader {
 	 * @param context
 	 *            用来创建一个DAO对象
 	 * **/
-	public Downloader(String downPath, String savePath, String fileName, int threadCount, Context context,
-			Handler mHandler) {
+	public Downloader(String downPath, String savePath, String fileName, Context context, Handler mHandler) {
 		this.downPath = downPath;
 		this.savePath = savePath;
 		this.fileName = fileName;
-		this.threadCount = threadCount;
 		this.context = context;
 		this.mHandler = mHandler;
 	}
@@ -80,20 +77,12 @@ public class Downloader {
 				reset();
 				return null;
 			}
-			range = this.fileSize / this.threadCount;// 设置每个线程应该下载的长度
+			range = this.fileSize;// 设置每个线程应该下载的长度
 			System.out.println("range is:" + range);
 			infos = new ArrayList<DownloadInfoModel>();// List<DownloadInfoModel>infos
 														// 里装的是每条线程的下载信息
-			// 初始化线程信息集合器,初始化每条线程的信息,为每条线程分配开始下载位置，结束位置
-			for (int i = 0; i < this.threadCount - 1; i++) {
-				// startPos是每条线程数乘以每条线程应该下载的长度,第0条,从0开始
-				// endPos要减去1Byte是因为,不减1byte的地方是下一个线程开始的位置
-				DownloadInfoModel info = new DownloadInfoModel(i, i * range, (i + 1) * range - 1, 0, downPath);
-				infos.add(info);// 把每条线程的信息加入到infos这个线程信息集合器里
-			}
 			// 这里加入最后1个线程的信息,只所以单独拿出来是因为最后一条线程下载的结束位置应该为fileSize
-			DownloadInfoModel info = new DownloadInfoModel(
-					this.threadCount - 1, (this.threadCount - 1) * range, this.fileSize, 0, downPath);
+			DownloadInfoModel info = new DownloadInfoModel(0, 0, this.fileSize, 0, downPath);
 			infos.add(info);
 			// 将这个infos加入到数据库,表面ListView上的一个item已经初始化，已经不是第1次下载了
 			DownLoadDao.saveInfos(infos);
@@ -108,6 +97,10 @@ public class Downloader {
 			for (DownloadInfoModel info : infos) {
 				completeSize += info.getCompeleteSize();// 把每条线程下载的长度累加起来,得到整个文件的下载长度
 				size += info.getEndPos() - info.getStartPos() + 1;// 计算出文件的大小,用每条线程的结束位置减去开始下载的位置,等于每条线程要下载的长度，然后累加
+			}
+			// 如果完成都大于了就强制等于
+			if (completeSize > size) {
+				completeSize = size;
 			}
 			LoadInfoModel loadInfo = new LoadInfoModel(size, completeSize, this.downPath);
 			return loadInfo;
@@ -247,6 +240,8 @@ public class Downloader {
 						compeleteSize += length;// 累加已经下载的长度
 						// 更新数据库中的下载信息
 						DownLoadDao.updataInfos(threadId, compeleteSize, urlstr);
+						// 更新文件完成度
+						DownLoadDao.updateFileCompleteSize(urlstr, compeleteSize);
 						// 用消息将下载信息传给进度条，对进度条进行更新
 						Message message = mHandler.obtainMessage();
 						message.what = 1;

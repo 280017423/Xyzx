@@ -165,6 +165,21 @@ public class DownLoadDao {
 			dataManager.close();
 		}
 	}
+	
+	/**
+	 * 更新文件的状态，1为正在下载，0为暂停
+	 * **/
+	public static void updateFileCompleteSize(String url, int completeSize) {
+		synchronized (FILE_LOCK) {
+			DataManager dataManager = DBUtil.getDataManager();
+			dataManager.beginTransaction();
+			ContentValues values = new ContentValues();
+			values.put("COMPLETE_SIZE", completeSize);
+			dataManager.updateByClause(FileStateModel.class, values, "URL = ?", new String[] { url });
+			dataManager.endTransaction();
+			dataManager.close();
+		}
+	}
 
 	/**
 	 * 更新文件的下载状态

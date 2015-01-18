@@ -13,6 +13,8 @@ import com.qianjiang.framework.util.PackageUtil;
  */
 public class ServerAPIConstant {
 	public static final String ACTION_UPDATE_DOWNLOAD_PROGRESS = "ACTION_UPDATE_DOWNLOAD_PROGRESS";
+	// public static final String ACTION_ADD_DOWNLOAD_PROGRESS =
+	// "ACTION_ADD_DOWNLOAD_PROGRESS";
 
 	public static final String API_GEI_PRODUCT = "api/product_list.php";
 	public static final String API_GEI_PRODUCT_DETAIL = "api/product_msg.php?productId=";

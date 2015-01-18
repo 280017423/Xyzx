@@ -17,6 +17,7 @@
     <string name="local_video_error">本地视频异常，请先下载完成</string>
     <string name="local_no_video_info">你还没有缓存任何视频</string>
     <string name="video_has_download">该视频已经下载</string>
+    <string name="add_video_success">添加下载成功</string>
     <string name="status_has_download">已下载</string>
     <string name="status_download_fail">下载失败</string>
     <string name="feedback_tel_hint">请输入您的手机号</string>

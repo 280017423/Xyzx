@@ -159,8 +159,9 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 							toast(getString(R.string.video_has_download));
 						} else if (-2 == status) {
 							toast(getString(R.string.video_has_download));
+						} else {
+							toast(getString(R.string.add_video_success));
 						}
-						refreashVideoList();
 						break;
 					default:
 						break;

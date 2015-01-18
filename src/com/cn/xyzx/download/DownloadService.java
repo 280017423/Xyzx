@@ -105,7 +105,7 @@ public class DownloadService extends Service {
 		String savePath = ServerAPIConstant.getDownloadPath();// 保存地址
 		mDownloader = mDownloadersMap.get(downPath);
 		if (mDownloader == null) {
-			mDownloader = new Downloader(downPath, savePath, fileName, 1, this, mHandler);
+			mDownloader = new Downloader(downPath, savePath, fileName, this, mHandler);
 			mDownloadersMap.put(downPath, mDownloader);// 创建完一个新的下载器,必须把它加入到下载器集合里去
 		}
 		if (mDownloader.isdownloading()) {
@@ -144,7 +144,7 @@ public class DownloadService extends Service {
 		String savePath = ServerAPIConstant.getDownloadPath();// 保存地址
 		mDownloader = mDownloadersMap.get(downPath);
 		if (mDownloader == null) {
-			mDownloader = new Downloader(downPath, savePath, fileName, 1, this, mHandler);
+			mDownloader = new Downloader(downPath, savePath, fileName, this, mHandler);
 			mDownloadersMap.put(downPath, mDownloader);// 创建完一个新的下载器,必须把它加入到下载器集合里去
 		}
 		if (mDownloader.isdownloading()) {

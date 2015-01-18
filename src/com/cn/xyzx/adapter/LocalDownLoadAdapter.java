@@ -105,7 +105,7 @@ public class LocalDownLoadAdapter extends BaseAdapter {
 		int state = fileStateModel.getState();
 		if (0 == state) {
 			holder.mBtnPauseOrStart.setVisibility(View.GONE);
-			if (fileStateModel.getCompleteSize() == fileStateModel.getFileSize()) {
+			if (fileStateModel.getCompleteSize() >= fileStateModel.getFileSize()) {
 				if (fileStateModel.getCompleteSize() == 0) {
 					holder.mProgressBar.setVisibility(View.VISIBLE);
 					holder.mTvPercent.setText(R.string.status_download_fail);

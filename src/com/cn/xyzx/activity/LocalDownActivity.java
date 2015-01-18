@@ -105,7 +105,9 @@ public class LocalDownActivity extends ActivityBase implements OnClickListener {
 					public void doAction() {
 						switch (v.getId()) {
 							case R.id.btn_local_delete:
-								mService.deleteData((String) v.getTag());
+								String url = (String) v.getTag();
+								DownLoadDao.delete(url);
+								mService.deleteData(url);
 								if (null == mFileStateModels || mFileStateModels.isEmpty()) {
 									mTvEmptyContent.setVisibility(View.VISIBLE);
 									mLvDownload.setVisibility(View.GONE);
@@ -189,7 +191,7 @@ public class LocalDownActivity extends ActivityBase implements OnClickListener {
 	protected void onDestroy() {
 		unbindPunchService();
 		unregisterReceiver(mUpdateReceiver);
-		DownLoadDao.updateFileDownState(mFileStateModels);// 当activity退出时,更新localdown_info这个表
+//		DownLoadDao.updateFileDownState(mFileStateModels);// 当activity退出时,更新localdown_info这个表
 		super.onDestroy();
 	}
 
