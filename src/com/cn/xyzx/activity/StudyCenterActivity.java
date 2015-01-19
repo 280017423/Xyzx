@@ -53,7 +53,7 @@ public class StudyCenterActivity extends ActivityBase implements OnClickListener
 			switch (msg.what) {
 				case DOWN_LOAD_SUCCESS:
 					mCustomProgressDialog.dismiss();
-					toast("下载成功");
+					// toast("下载成功");
 					break;
 				case DOWN_LOAD_FAIL:
 					mCustomProgressDialog.dismiss();
