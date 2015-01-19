@@ -47,6 +47,7 @@ public class StudyCenterActivity extends ActivityBase implements OnClickListener
 	private LoadingUpView mLoadingUpView;
 	private CustomProgressDialog mCustomProgressDialog;
 	private Handler mHandler = new Handler() {
+		@Override
 		public void handleMessage(Message msg) {
 
 			switch (msg.what) {

@@ -12,7 +12,7 @@ import com.qianjiang.framework.util.AppDownloader.DownloadProgressListener;
 
 public class HttpDownloader {
 
-	private URL url = null;
+	private static final int FILESIZE = 4 * 1024;
 
 	/**
 	 * 
@@ -25,12 +25,15 @@ public class HttpDownloader {
 		InputStream inputStream = null;
 		int downloadLength = 0;
 		int max = 0;
+		File resultFile = null;
+		URL url = null;
 		try {
 			url = new URL(urlStr);
 			HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+			urlConn.setConnectTimeout(10 * 1000);
+			urlConn.setReadTimeout(10 * 1000);
 			max = urlConn.getContentLength();
 			inputStream = urlConn.getInputStream();
-			File resultFile = null;
 			OutputStream output = null;
 			try {
 				resultFile = createSDFile(path + fileName);
@@ -44,10 +47,16 @@ public class HttpDownloader {
 				}
 				output.flush();
 			} catch (Exception e) {
+				if (null != resultFile) {
+					resultFile.delete();
+				}
+				listener.onError(false);
 				e.printStackTrace();
 			} finally {
 				try {
-					output.close();
+					if (null != output) {
+						output.close();
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -57,23 +66,28 @@ public class HttpDownloader {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			if (null != resultFile) {
+				resultFile.delete();
+			}
 			listener.onError(false);
 		} finally {
 			try {
-				inputStream.close();
+				if (null != inputStream) {
+					inputStream.close();
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		listener.onDownloadComplete();
 	}
-	private int FILESIZE = 4 * 1024;
 
 	/**
 	 * 在SD卡上创建文件
 	 * 
 	 * @param fileName
-	 * @return
+	 *            指定的文件名字
+	 * @return File 生成的文件
 	 * @throws IOException
 	 */
 	public File createSDFile(String fileName) throws IOException {
