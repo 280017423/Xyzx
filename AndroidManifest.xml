@@ -65,7 +65,7 @@
             android:value="xyzx" />
         <meta-data
             android:name="build_model"
-            android:value="rk30sdk" />
+            android:value="XY97" />
 
         <activity
             android:name="com.cn.xyzx.activity.LoadingActivity"
