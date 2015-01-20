@@ -56,7 +56,7 @@
             android:value="true" />
         <meta-data
             android:name="api_root_url"
-            android:value="http://103.243.181.107/" />
+            android:value="http://219.234.6.124/" />
         <meta-data
             android:name="is_developing"
             android:value="false" />
