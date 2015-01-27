@@ -17,7 +17,7 @@ public class ProductCateModel extends BaseModel {
 	}
 
 	public String getCateName() {
-		return cateName;
+		return null == cateName ? "" : cateName;
 	}
 
 	public void setCateName(String cateName) {

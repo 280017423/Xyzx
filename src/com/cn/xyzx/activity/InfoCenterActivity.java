@@ -19,13 +19,13 @@ import com.cn.xyzx.R;
 import com.cn.xyzx.adapter.InfoFragmentAdapter;
 import com.cn.xyzx.download.DownloadService;
 import com.cn.xyzx.download.DownloadService.PunchBinder;
+import com.cn.xyzx.fragment.EnterpriseCultureFragment;
 import com.cn.xyzx.fragment.EnterpriseIntroduceFragment;
 import com.cn.xyzx.fragment.HonorFragment;
 import com.cn.xyzx.fragment.LeadFragment;
 import com.cn.xyzx.fragment.ResponsibilityFragment;
 import com.cn.xyzx.fragment.RunHeFragment;
 import com.cn.xyzx.fragment.VideoFragment;
-import com.cn.xyzx.util.ServerAPIConstant;
 import com.cn.xyzx.widget.LineTabIndicator;
 import com.qianjiang.framework.widget.LoadingUpView;
 
@@ -71,15 +71,13 @@ public class InfoCenterActivity extends FragmentActivityBase implements OnClickL
 	private void initFragments() {
 		List<Fragment> fragments = new ArrayList<Fragment>();
 
-		String url = ServerAPIConstant.getApiRootUrl() + ServerAPIConstant.API_GEI_ENTERPRISE_INTRODUCE;
-		EnterpriseIntroduceFragment fragment1 = EnterpriseIntroduceFragment.newInstance(url);
+		EnterpriseIntroduceFragment fragment1 = EnterpriseIntroduceFragment.newInstance();
 		fragments.add(fragment1);
 
 		LeadFragment fragment2 = LeadFragment.newInstance("572");
 		fragments.add(fragment2);
 
-		String url3 = ServerAPIConstant.getApiRootUrl() + ServerAPIConstant.API_GEI_ENTERPRISE_CULTURE;
-		EnterpriseIntroduceFragment fragment3 = EnterpriseIntroduceFragment.newInstance(url3);
+		EnterpriseCultureFragment fragment3 = EnterpriseCultureFragment.newInstance();
 		fragments.add(fragment3);
 
 		VideoFragment videoFragment = VideoFragment.newInstance();

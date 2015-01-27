@@ -70,6 +70,9 @@ public class NewsActivity extends FragmentActivityBase implements OnClickListene
 
 		@Override
 		protected void onPostExecute(ActionResult result) {
+			if (isFinishing()) {
+				return;
+			}
 			if (result != null && ActionResult.RESULT_CODE_SUCCESS.equals(result.ResultCode)) {
 			} else {
 				showErrorMsg(result);

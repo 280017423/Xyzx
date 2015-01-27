@@ -79,6 +79,9 @@ public class HonorFragment extends FragmentBase implements OnItemClickListener {
 
 		@Override
 		protected void onPostExecute(ActionResult result) {
+			if (getActivity().isFinishing()) {
+				return;
+			}
 			if (result != null && ActionResult.RESULT_CODE_SUCCESS.equals(result.ResultCode)) {
 			} else {
 				showErrorMsg(result);

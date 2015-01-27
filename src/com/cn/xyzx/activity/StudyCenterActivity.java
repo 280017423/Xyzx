@@ -115,6 +115,9 @@ public class StudyCenterActivity extends ActivityBase implements OnClickListener
 
 		@Override
 		protected void onPostExecute(ActionResult result) {
+			if (isFinishing()) {
+				return;
+			}
 			if (result != null && ActionResult.RESULT_CODE_SUCCESS.equals(result.ResultCode)) {
 
 			} else {

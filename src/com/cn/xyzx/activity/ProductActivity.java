@@ -70,6 +70,9 @@ public class ProductActivity extends FragmentActivityBase implements OnClickList
 
 		@Override
 		protected void onPostExecute(ActionResult result) {
+			if (isFinishing()) {
+				return;
+			}
 			if (result != null && ActionResult.RESULT_CODE_SUCCESS.equals(result.ResultCode)) {
 			} else {
 				showErrorMsg(result);

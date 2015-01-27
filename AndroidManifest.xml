@@ -66,6 +66,9 @@
         <meta-data
             android:name="build_model"
             android:value="XY97" />
+        <meta-data
+            android:name="build_model_1"
+            android:value="XY097" />
 
         <activity
             android:name="com.cn.xyzx.activity.LoadingActivity"

@@ -9,12 +9,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.cn.xyzx.bean.ProductCateModel;
 
 /**
- * 
- * Description the class 轮换图片适配器
+ * 产品title适配器
  * 
  * @version 1.0
  * @author zou.sq
- * 
  */
 public class ProductCateAdapter extends FragmentPagerAdapter {
 
@@ -30,7 +28,7 @@ public class ProductCateAdapter extends FragmentPagerAdapter {
 	@Override
 	public CharSequence getPageTitle(int position) {
 		if (null == mProductCateModels) {
-			return null;
+			return "";
 		}
 		return mProductCateModels.get(position).getCateName();
 	}

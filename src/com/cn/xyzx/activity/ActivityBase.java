@@ -16,7 +16,6 @@ import com.qianjiang.framework.app.QJActivityBase;
 import com.qianjiang.framework.imageloader.core.DisplayImageOptions;
 import com.qianjiang.framework.imageloader.core.ImageLoader;
 import com.qianjiang.framework.imageloader.core.display.SimpleBitmapDisplayer;
-import com.qianjiang.framework.util.EvtLog;
 import com.qianjiang.framework.util.PackageUtil;
 import com.qianjiang.framework.util.QJActivityManager;
 import com.qianjiang.framework.widget.LoadingUpView;
@@ -52,9 +51,8 @@ public class ActivityBase extends QJActivityBase implements IDialogProtocol {
 	}
 
 	private void verifyPad() {
-		if (!android.os.Build.MODEL.equals(PackageUtil.getConfigString("build_model"))) {
-			EvtLog.d("aaa", PackageUtil.getConfigString("build_model"));
-			EvtLog.d("aaa", android.os.Build.MODEL);
+		if (!android.os.Build.MODEL.equals(PackageUtil.getConfigString("build_model"))
+				&& !android.os.Build.MODEL.equals(PackageUtil.getConfigString("build_model_1"))) {
 			finish();
 		}
 	}

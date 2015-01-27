@@ -1,5 +1,7 @@
 package com.cn.xyzx.widget;
 
+import com.cn.xyzx.R;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -40,7 +42,7 @@ public class LineTabIndicator extends HorizontalScrollView {
 	private int mUnderlineColor = 0xFFD1D1D1;
 	private int mIndicatorColor = 0xFF6EBE23;
 	private int mDividerColor = 0xFFD1D1D1;
-	private int mTextSelectedColor = 0xFF6EBE23;
+	private int mTextSelectedColor = Color.WHITE;
 	private int mTextUnselectColor = 0xFF666666;
 
 	private boolean mEnableExpand = true;
@@ -288,8 +290,10 @@ public class LineTabIndicator extends HorizontalScrollView {
 			child.setSelected(isSelected);
 			if (isSelected) {
 				((TabView) child).getTextView().setTextColor(mTextSelectedColor);
+				child.setBackgroundResource(R.drawable.xz);
 			} else {
 				((TabView) child).getTextView().setTextColor(mTextUnselectColor);
+				child.setBackgroundResource(R.drawable.wxz);
 			}
 		}
 	}

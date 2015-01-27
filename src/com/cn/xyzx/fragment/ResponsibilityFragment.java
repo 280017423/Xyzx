@@ -79,6 +79,9 @@ public class ResponsibilityFragment extends FragmentBase implements OnItemClickL
 
 		@Override
 		protected void onPostExecute(ActionResult result) {
+			if (getActivity().isFinishing()) {
+				return;
+			}
 			if (result != null && ActionResult.RESULT_CODE_SUCCESS.equals(result.ResultCode)) {
 
 			} else {
