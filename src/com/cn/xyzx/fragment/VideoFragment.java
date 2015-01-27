@@ -92,7 +92,7 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 
 		@Override
 		protected void onPostExecute(ActionResult result) {
-			if (getActivity().isFinishing()) {
+			if (null == getActivity() || getActivity().isFinishing()) {
 				return;
 			}
 			if (result != null && ActionResult.RESULT_CODE_SUCCESS.equals(result.ResultCode)) {
