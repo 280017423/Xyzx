@@ -208,10 +208,15 @@ public class StudyCenterActivity extends ActivityBase implements OnClickListener
 
 								@Override
 								public void run() {
-									Intent intent = OpenFileUtil.openFile(tempFile, StudyCenterActivity.this);
-									if (null != intent) {
-										startActivity(intent);
-									} else {
+									try {
+										Intent intent = OpenFileUtil.openFile(tempFile, StudyCenterActivity.this);
+										if (null != intent) {
+											startActivity(intent);
+										} else {
+											Toast.makeText(StudyCenterActivity.this, getString(R.string.no_app_found),
+													Toast.LENGTH_LONG).show();
+										}
+									} catch (Exception e) {
 										Toast.makeText(StudyCenterActivity.this, getString(R.string.no_app_found),
 												Toast.LENGTH_LONG).show();
 									}
