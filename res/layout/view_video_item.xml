@@ -40,7 +40,8 @@
         android:contentDescription="@null"
         android:padding="10dp"
         android:scaleType="center"
-        android:src="@drawable/icon_download_bg" >
+        android:src="@drawable/icon_download_bg"
+        android:visibility="gone" >
     </ImageButton>
 
 </RelativeLayout>

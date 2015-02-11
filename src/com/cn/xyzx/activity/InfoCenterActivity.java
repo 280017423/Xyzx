@@ -3,22 +3,14 @@ package com.cn.xyzx.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.adapter.InfoFragmentAdapter;
-import com.cn.xyzx.download.DownloadService;
-import com.cn.xyzx.download.DownloadService.PunchBinder;
 import com.cn.xyzx.fragment.EnterpriseCultureFragment;
 import com.cn.xyzx.fragment.EnterpriseIntroduceFragment;
 import com.cn.xyzx.fragment.HonorFragment;
@@ -34,26 +26,11 @@ public class InfoCenterActivity extends FragmentActivityBase implements OnClickL
 	private LineTabIndicator mLineTabIndicator;
 	private InfoFragmentAdapter mPageAdapter;
 	private LoadingUpView mLoadingUpView;
-	private DownloadService mService;
-	private ServiceConnection mConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			mService = null;
-		}
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			PunchBinder binder = (PunchBinder) service;
-			mService = binder.getService();
-		}
-	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_info_center);
-		bindPunchService();
 		initVariables();
 		initView();
 		initFragments();
@@ -119,29 +96,4 @@ public class InfoCenterActivity extends FragmentActivityBase implements OnClickL
 			mLoadingUpView.dismiss();
 		}
 	}
-
-	protected void bindPunchService() {
-		Intent mIntent = new Intent(this, DownloadService.class);
-		bindService(mIntent, mConnection, Context.BIND_AUTO_CREATE);
-	}
-
-	protected void unbindPunchService() {
-		try {
-			unbindService(mConnection);
-			Log.d("aaa", "unbindPunchService");
-		} catch (IllegalArgumentException e) {
-			Log.d("aaa", "Service wasn't bound!");
-		}
-	}
-
-	@Override
-	protected void onDestroy() {
-		unbindPunchService();
-		super.onDestroy();
-	}
-
-	public int startDownload(final String fileName, String title, final String downPath, String picUrl) {
-		return mService.startDownload(fileName, title, downPath, picUrl);
-	}
-
 }

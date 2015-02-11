@@ -10,7 +10,6 @@ import android.widget.MediaController;
 
 import com.cn.xyzx.R;
 import com.cn.xyzx.bean.VideoModel;
-import com.cn.xyzx.db.DownLoadDao;
 import com.cn.xyzx.util.ServerAPIConstant;
 import com.cn.xyzx.widget.FullScreenVideoView;
 import com.qianjiang.framework.util.EvtLog;
@@ -52,7 +51,7 @@ public class VideoPlayerActivity extends ActivityBase implements OnPreparedListe
 
 	@Override
 	public boolean onError(MediaPlayer mp, int what, int extra) {
-		if (DownLoadDao.hasFile(mVideoModel.getFileName())) {
+		if (null != mVideoModel && !StringUtil.isNullOrEmpty(mVideoModel.getVideoUrl())) {
 			toast(getString(R.string.local_video_error));
 		} else {
 			toast(getString(R.string.toast_error_url));
@@ -64,7 +63,7 @@ public class VideoPlayerActivity extends ActivityBase implements OnPreparedListe
 
 	private void initView() {
 		mVideoView = (FullScreenVideoView) findViewById(R.id.fragmentvideoplayer_videoview);
-		if (DownLoadDao.hasFile(mVideoModel.getFileName())) {
+		if (null != mVideoModel && !StringUtil.isNullOrEmpty(mVideoModel.getVideoUrl())) {
 			mVideoView.setVideoURI(Uri.parse(ServerAPIConstant.getDownloadPath() + mVideoModel.getFileName()));
 		} else {
 			mVideoView.setVideoURI(Uri.parse(mVideoModel.getVideoUrl()));

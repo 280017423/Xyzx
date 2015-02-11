@@ -1,198 +1,60 @@
 package com.cn.xyzx.activity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.lang.ref.WeakReference;
 
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cn.xyzx.R;
-import com.cn.xyzx.adapter.LocalDownLoadAdapter;
-import com.cn.xyzx.bean.FileStateModel;
-import com.cn.xyzx.db.DownLoadDao;
+import com.cn.xyzx.download.DownloadInfo;
+import com.cn.xyzx.download.DownloadManager;
 import com.cn.xyzx.download.DownloadService;
-import com.cn.xyzx.download.DownloadService.PunchBinder;
-import com.cn.xyzx.util.ServerAPIConstant;
-import com.qianjiang.framework.util.StringUtil;
-import com.qianjiang.framework.util.UIUtil;
+import com.lidroid.xutils.exception.DbException;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.HttpHandler;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.util.LogUtils;
 
 public class LocalDownActivity extends ActivityBase implements OnClickListener {
 
-	private static final int DELAY_TIME = 2000;
 	private ListView mLvDownload;
-	private List<FileStateModel> mFileStateModels;// 用于存放要显示的列表
-	private LocalDownLoadAdapter mLocalDownLoadAdapter;// 自定义adapter
-	private UpdateReceiver mUpdateReceiver;// 广播接收器
-	private DownloadService mService;
-	private TextView mTvEmptyContent;
-	private ServiceConnection mConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			mService = null;
-		}
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			PunchBinder binder = (PunchBinder) service;
-			mService = binder.getService();
-		}
-	};
+	private DownloadManager mDownloadManager;
+	private DownloadListAdapter mLocalDownLoadAdapter;
+	private Context mAppContext;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_local_download);
-		bindPunchService();
 		initVariable();
 		initViews();
 	}
 
 	private void initVariable() {
-		mFileStateModels = new ArrayList<FileStateModel>();
-		mUpdateReceiver = new UpdateReceiver();
-		mUpdateReceiver.registerAction(ServerAPIConstant.ACTION_UPDATE_DOWNLOAD_PROGRESS);
+		mAppContext = getApplicationContext();
+		mLocalDownLoadAdapter = new DownloadListAdapter(mAppContext);
+		mDownloadManager = DownloadService.getDownloadManager(getApplicationContext());
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		mFileStateModels.clear();
-		mFileStateModels.addAll(DownLoadDao.getFileState());
 		mLocalDownLoadAdapter.notifyDataSetChanged();
-		if (null == mFileStateModels || mFileStateModels.isEmpty()) {
-			mTvEmptyContent.setVisibility(View.VISIBLE);
-			mLvDownload.setVisibility(View.GONE);
-		} else {
-			mTvEmptyContent.setVisibility(View.GONE);
-			mLvDownload.setVisibility(View.VISIBLE);
-		}
-		for (int i = 0; i < mFileStateModels.size(); i++) {
-			FileStateModel fileState = mFileStateModels.get(i);
-			if (null == fileState || StringUtil.isNullOrEmpty(fileState.getFileName())
-					|| StringUtil.isNullOrEmpty(fileState.getUrl())) {
-				return;
-			}
-			if (null != mService) {
-				mService.reStartDownload(fileState.getFileName(), fileState.getUrl());
-			}
-		}
 	}
 
 	private void initViews() {
-		mTvEmptyContent = (TextView) findViewById(R.id.tv_empty_content);
 		mLvDownload = (ListView) this.findViewById(R.id.listview);
-		mLocalDownLoadAdapter = new LocalDownLoadAdapter(this, mFileStateModels, new OnClickListener() {
-
-			@Override
-			public void onClick(final View v) {
-				UIUtil.limitReClick(LocalDownActivity.class.getName(), DELAY_TIME, new ActionListener() {
-
-					@Override
-					public void doAction() {
-						switch (v.getId()) {
-							case R.id.btn_local_delete:
-								String url = (String) v.getTag();
-								DownLoadDao.delete(url);
-								DownLoadDao.deleteFileState(url);
-								mService.deleteData(url);
-								if (null == mFileStateModels || mFileStateModels.isEmpty()) {
-									mTvEmptyContent.setVisibility(View.VISIBLE);
-									mLvDownload.setVisibility(View.GONE);
-								} else {
-									mTvEmptyContent.setVisibility(View.GONE);
-									mLvDownload.setVisibility(View.VISIBLE);
-								}
-								break;
-							case R.id.btn_start_pause_download:
-								break;
-
-							default:
-								break;
-						}
-					}
-				});
-			}
-		}, mLvDownload, mImageLoader);
 		mLvDownload.setAdapter(mLocalDownLoadAdapter);
-		mLvDownload.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
-				UIUtil.limitReClick(LocalDownActivity.class.getName(), DELAY_TIME, new ActionListener() {
-
-					@Override
-					public void doAction() {
-						FileStateModel fileState = (FileStateModel) parent.getAdapter().getItem(position);
-						if (null == fileState || StringUtil.isNullOrEmpty(fileState.getFileName())
-								|| StringUtil.isNullOrEmpty(fileState.getUrl()) || fileState.isComplete()) {
-							return;
-						}
-						mService.switchState(fileState.getFileName(), fileState.getUrl());
-					}
-				});
-			}
-		});
-	}
-
-	class UpdateReceiver extends BroadcastReceiver {
-
-		public void registerAction(String action) {
-			IntentFilter intentFilter = new IntentFilter();
-			intentFilter.addAction(action);
-			registerReceiver(this, intentFilter);
-		}
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			// 接收来自DownloadService传送过来的数据,并且更新进度条
-			if (intent.getAction().equals(ServerAPIConstant.ACTION_UPDATE_DOWNLOAD_PROGRESS)) {
-				String url = intent.getStringExtra("url");
-				int completeSize = intent.getIntExtra("completeSize", 0);
-				for (int i = 0; i < mFileStateModels.size(); i++) {
-					FileStateModel fileState = mFileStateModels.get(i);
-					if (fileState.getUrl().equals(url)) {
-						fileState.setCompleteSize(completeSize);
-						mLocalDownLoadAdapter.updateProgress(fileState);
-						break;
-					}
-				}
-			}
-		}
-	}
-
-	protected void bindPunchService() {
-		Intent mIntent = new Intent(this, DownloadService.class);
-		bindService(mIntent, mConnection, Context.BIND_AUTO_CREATE);
-	}
-
-	protected void unbindPunchService() {
-		try {
-			unbindService(mConnection);
-			Log.d("aaa", "unbindPunchService");
-		} catch (IllegalArgumentException e) {
-			Log.d("aaa", "Service wasn't bound!");
-		}
-	}
-
-	@Override
-	protected void onDestroy() {
-		unbindPunchService();
-		unregisterReceiver(mUpdateReceiver);
-		super.onDestroy();
 	}
 
 	@Override
@@ -204,5 +66,216 @@ public class LocalDownActivity extends ActivityBase implements OnClickListener {
 			default:
 				break;
 		}
+	}
+
+	private class DownloadListAdapter extends BaseAdapter {
+
+		private final Context mContext;
+
+		private DownloadListAdapter(Context context) {
+			mContext = context;
+		}
+
+		@Override
+		public int getCount() {
+			if (mDownloadManager == null) {
+				return 0;
+			}
+			return mDownloadManager.getDownloadInfoListCount();
+		}
+
+		@Override
+		public Object getItem(int i) {
+			return mDownloadManager.getDownloadInfo(i);
+		}
+
+		@Override
+		public long getItemId(int i) {
+			return i;
+		}
+
+		@Override
+		public View getView(int i, View view, ViewGroup viewGroup) {
+			DownloadItemViewHolder holder = null;
+			DownloadInfo downloadInfo = mDownloadManager.getDownloadInfo(i);
+			if (view == null) {
+				view = View.inflate(mContext, R.layout.view_video_download_item, null);
+				holder = new DownloadItemViewHolder();
+				holder.label = (TextView) view.findViewById(R.id.download_label);
+				holder.state = (TextView) view.findViewById(R.id.download_state);
+				holder.progressBar = (ProgressBar) view.findViewById(R.id.download_pb);
+				holder.stopBtn = (Button) view.findViewById(R.id.download_stop_btn);
+				holder.removeBtn = (Button) view.findViewById(R.id.download_remove_btn);
+				view.setTag(holder);
+			} else {
+				holder = (DownloadItemViewHolder) view.getTag();
+			}
+			holder.update(downloadInfo);
+
+			HttpHandler<File> handler = downloadInfo.getHandler();
+			if (handler != null) {
+				RequestCallBack<File> callBack = handler.getRequestCallBack();
+				if (callBack instanceof DownloadManager.ManagerCallBack) {
+					DownloadManager.ManagerCallBack managerCallBack = (DownloadManager.ManagerCallBack) callBack;
+					if (managerCallBack.getBaseCallBack() == null) {
+						managerCallBack.setBaseCallBack(new DownloadRequestCallBack());
+					}
+				}
+				callBack.setUserTag(new WeakReference<DownloadItemViewHolder>(holder));
+			}
+
+			return view;
+		}
+	}
+
+	public class DownloadItemViewHolder {
+		TextView label;
+		TextView state;
+		ProgressBar progressBar;
+		Button stopBtn;
+		Button removeBtn;
+
+		private DownloadInfo downloadInfo;
+
+		public void update(DownloadInfo downloadInfo) {
+			this.downloadInfo = downloadInfo;
+			refresh();
+		}
+
+		public void refresh() {
+			if (null == downloadInfo) {
+				return;
+			}
+			this.label.setText(downloadInfo.getFileName());
+			state.setText(downloadInfo.getState().toString());
+			if (downloadInfo.getFileLength() > 0) {
+				progressBar.setProgress((int) (downloadInfo.getProgress() * 100 / downloadInfo.getFileLength()));
+			} else {
+				progressBar.setProgress(0);
+			}
+
+			stopBtn.setVisibility(View.VISIBLE);
+			stopBtn.setText(mAppContext.getString(R.string.pause));
+			HttpHandler.State state = downloadInfo.getState();
+			switch (state) {
+				case WAITING:
+					stopBtn.setText(mAppContext.getString(R.string.pause));
+					break;
+				case STARTED:
+					stopBtn.setText(mAppContext.getString(R.string.pause));
+					break;
+				case LOADING:
+					stopBtn.setText(mAppContext.getString(R.string.pause));
+					break;
+				case CANCELLED:
+					stopBtn.setText(mAppContext.getString(R.string.resume));
+					break;
+				case SUCCESS:
+					stopBtn.setVisibility(View.GONE);
+					break;
+				case FAILURE:
+					stopBtn.setText(mAppContext.getString(R.string.retry));
+					break;
+				default:
+					break;
+			}
+
+			removeBtn.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View view) {
+					try {
+						mDownloadManager.removeDownload(downloadInfo);
+						File downloadFile = new File(downloadInfo.getFileSavePath());
+						downloadFile.delete();
+						mLocalDownLoadAdapter.notifyDataSetChanged();
+					} catch (DbException e) {
+						LogUtils.e(e.getMessage(), e);
+					}
+				}
+			});
+
+			stopBtn.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					HttpHandler.State state = downloadInfo.getState();
+					switch (state) {
+						case WAITING:
+						case STARTED:
+						case LOADING:
+							try {
+								mDownloadManager.stopDownload(downloadInfo);
+							} catch (DbException e) {
+								LogUtils.e(e.getMessage(), e);
+							}
+							break;
+						case CANCELLED:
+						case FAILURE:
+							try {
+								mDownloadManager.resumeDownload(downloadInfo, new DownloadRequestCallBack());
+							} catch (DbException e) {
+								LogUtils.e(e.getMessage(), e);
+							}
+							mLocalDownLoadAdapter.notifyDataSetChanged();
+							break;
+						default:
+							break;
+					}
+				}
+			});
+		}
+	}
+
+	private class DownloadRequestCallBack extends RequestCallBack<File> {
+
+		@SuppressWarnings("unchecked")
+		private void refreshListItem() {
+			if (userTag == null) {
+				return;
+			}
+			WeakReference<DownloadItemViewHolder> tag = (WeakReference<DownloadItemViewHolder>) userTag;
+			DownloadItemViewHolder holder = tag.get();
+			if (holder != null) {
+				holder.refresh();
+			}
+		}
+
+		@Override
+		public void onStart() {
+			refreshListItem();
+		}
+
+		@Override
+		public void onLoading(long total, long current, boolean isUploading) {
+			refreshListItem();
+		}
+
+		@Override
+		public void onSuccess(ResponseInfo<File> responseInfo) {
+			refreshListItem();
+		}
+
+		@Override
+		public void onFailure(HttpException error, String msg) {
+			refreshListItem();
+		}
+
+		@Override
+		public void onCancelled() {
+			refreshListItem();
+		}
+	}
+
+	@Override
+	public void onDestroy() {
+		try {
+			if (mLocalDownLoadAdapter != null && mDownloadManager != null) {
+				mDownloadManager.backupDownloadInfoList();
+			}
+		} catch (DbException e) {
+			LogUtils.e(e.getMessage(), e);
+		}
+		super.onDestroy();
 	}
 }

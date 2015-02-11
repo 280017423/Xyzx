@@ -14,25 +14,13 @@
         android:cacheColorHint="@android:color/transparent"
         android:clickable="true"
         android:divider="@android:color/transparent"
-        android:dividerHeight="20dp"
+        android:dividerHeight="5dp"
         android:fadingEdge="none"
         android:fastScrollEnabled="true"
         android:listSelector="@android:color/transparent"
-        android:paddingTop="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:scrollbars="none" />
-
-    <TextView
-        android:id="@+id/tv_empty_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:singleLine="true"
-        android:text="@string/local_no_video_info"
-        android:textColor="#05B0DE"
-        android:textSize="@dimen/size_1"
-        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="match_parent"

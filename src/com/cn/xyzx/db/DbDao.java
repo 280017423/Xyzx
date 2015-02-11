@@ -26,9 +26,9 @@ public final class DbDao {
 	 * 
 	 * @Description 保存数据到数据库
 	 * @param model
-	 *            签到数据
+	 *            数据model
 	 * @param <T>
-	 *            签到数据类型
+	 *            数据model
 	 * 
 	 */
 	public static <T extends BaseModel> void saveModels(final List<T> models) {
@@ -52,9 +52,9 @@ public final class DbDao {
 	 * 
 	 * @Description 保存数据到数据库
 	 * @param model
-	 *            签到数据
+	 *            数据model
 	 * @param <T>
-	 *            签到数据类型
+	 *            数据model
 	 * 
 	 */
 	public static <T extends BaseModel> void saveModel(final T model) {

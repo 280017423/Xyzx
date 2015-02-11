@@ -35,7 +35,7 @@ public class ActivityBase extends QJActivityBase implements IDialogProtocol {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		verifyPad();
+//		verifyPad();
 		if (isHiddenSystemUi) {
 			UiUtil.hiddenSystemUi(this);
 		}

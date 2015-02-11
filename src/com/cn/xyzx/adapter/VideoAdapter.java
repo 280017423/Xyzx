@@ -20,6 +20,7 @@ import com.qianjiang.framework.imageloader.core.DisplayImageOptions;
 import com.qianjiang.framework.imageloader.core.DisplayImageOptions.Builder;
 import com.qianjiang.framework.imageloader.core.ImageLoader;
 import com.qianjiang.framework.imageloader.core.display.SimpleBitmapDisplayer;
+import com.qianjiang.framework.util.StringUtil;
 import com.qianjiang.framework.util.UIUtil;
 
 public class VideoAdapter extends BaseAdapter {
@@ -78,14 +79,13 @@ public class VideoAdapter extends BaseAdapter {
 			holder = (GridViewHolder) convertView.getTag();
 		}
 
-		VideoModel productModel = mProductList.get(position);
-		holder.mIvDownload.setTag(productModel);
+		VideoModel videoModel = mProductList.get(position);
+		holder.mIvDownload.setTag(videoModel);
 		holder.mIvDownload.setOnClickListener(mListener);
-		mImageDownloader.displayImage(productModel.getPicture(), holder.imageView,
+		mImageDownloader.displayImage(videoModel.getPicture(), holder.imageView,
 				mOptions.showImageForEmptyUri(R.drawable.news_default).build());
-		holder.textView.setText(productModel.getTitle());
-		int status = productModel.getHasDownload();
-		if (1 == status) {
+		holder.textView.setText(videoModel.getTitle());
+		if (null != videoModel && !StringUtil.isNullOrEmpty(videoModel.getVideoUrl())) {
 			holder.mIvDownload.setVisibility(View.GONE);
 		} else {
 			holder.mIvDownload.setVisibility(View.VISIBLE);

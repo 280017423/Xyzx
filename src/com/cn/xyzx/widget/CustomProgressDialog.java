@@ -20,11 +20,9 @@ public class CustomProgressDialog extends Dialog {
 
 	private ProgressBar mProgressBar;
 	private TextView mTvProgressText;
-	private Activity mActivity;
 
 	public CustomProgressDialog(Activity activity) {
 		super(activity);
-		mActivity = activity;
 	}
 
 	/**

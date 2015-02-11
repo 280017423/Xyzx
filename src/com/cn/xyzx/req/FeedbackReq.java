@@ -6,11 +6,8 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.cn.xyzx.bean.VideoModel;
-import com.cn.xyzx.db.DbDao;
 import com.cn.xyzx.util.ActionResult;
 import com.cn.xyzx.util.ServerAPIConstant;
-import com.pdw.gson.reflect.TypeToken;
 import com.qianjiang.framework.app.JsonResult;
 import com.qianjiang.framework.util.EvtLog;
 import com.qianjiang.framework.util.HttpClientUtil;

@@ -22,12 +22,15 @@ import com.cn.xyzx.activity.InfoCenterActivity;
 import com.cn.xyzx.activity.LocalDownActivity;
 import com.cn.xyzx.activity.VideoPlayerActivity;
 import com.cn.xyzx.adapter.VideoAdapter;
-import com.cn.xyzx.bean.FileStateModel;
 import com.cn.xyzx.bean.VideoModel;
 import com.cn.xyzx.db.DbDao;
-import com.cn.xyzx.db.DownLoadDao;
+import com.cn.xyzx.download.DownloadManager;
+import com.cn.xyzx.download.DownloadService;
 import com.cn.xyzx.req.VideoReq;
 import com.cn.xyzx.util.ActionResult;
+import com.cn.xyzx.util.ServerAPIConstant;
+import com.lidroid.xutils.exception.DbException;
+import com.lidroid.xutils.util.LogUtils;
 import com.qianjiang.framework.app.QJActivityBase.ActionListener;
 import com.qianjiang.framework.util.NetUtil;
 import com.qianjiang.framework.util.StringUtil;
@@ -39,6 +42,7 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 	private GridView mGvHonor;
 	private VideoAdapter mAdapter;
 	private Button mBtnLocalDownload;
+	private DownloadManager mDownloadManager;
 
 	public static final VideoFragment newInstance() {
 		VideoFragment fragment = new VideoFragment();
@@ -49,6 +53,7 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 	public void onCreate(Bundle savedInstanceState) {
 		mLeaderList = new ArrayList<VideoModel>();
 		mAdapter = new VideoAdapter(getActivity(), mLeaderList, mImageLoader, this);
+		mDownloadManager = DownloadService.getDownloadManager(getActivity().getApplicationContext());
 		super.onCreate(savedInstanceState);
 	}
 
@@ -62,7 +67,6 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 		mGvHonor.setAdapter(mAdapter);
 		mGvHonor.setOnItemClickListener(this);
 		mBtnLocalDownload.setOnClickListener(this);
-		getVideoList();
 		return mView;
 	}
 
@@ -75,7 +79,6 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 		} else {
 			mLeaderList.clear();
 			mLeaderList.addAll(list);
-			refreashVideoList();
 			mAdapter.notifyDataSetChanged();
 		}
 		new AsyncLogin().execute();
@@ -83,7 +86,7 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 
 	@Override
 	public void onResume() {
-		refreashVideoList();
+		getVideoList();
 		mAdapter.notifyDataSetChanged();
 		super.onResume();
 	}
@@ -102,7 +105,6 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 			}
 			mLeaderList.clear();
 			mLeaderList.addAll(DbDao.getModels(VideoModel.class));
-			refreashVideoList();
 			mAdapter.notifyDataSetChanged();
 			if (isAdded()) {
 				((InfoCenterActivity) getActivity()).dismissLoading();
@@ -117,24 +119,13 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		VideoModel model = mAdapter.getItem(position);
-		if (null != model && !StringUtil.isNullOrEmpty(model.getId())) {
-			Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
-			intent.putExtra(Video.class.getName(), model);
-			startActivity(intent);
-		}
-	}
-
-	@Override
-	public void onClick(final View v) {
-
-		switch (v.getId()) {
-			case R.id.btn_local_download:
-				if (isAdded()) {
-					startActivity(new Intent(getActivity(), LocalDownActivity.class));
-				}
-				break;
-			case R.id.btn_down_icon:
+		final VideoModel model = mAdapter.getItem(position);
+		if (null != model && !StringUtil.isNullOrEmpty(model.getVideoUrl())) {
+			if (mDownloadManager.hasDownLoaded(model.getVideoUrl())) {
+				Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+				intent.putExtra(Video.class.getName(), model);
+				startActivity(intent);
+			} else {
 				UIUtil.limitReClick(VideoFragment.class.getName(), new ActionListener() {
 
 					@Override
@@ -150,44 +141,44 @@ public class VideoFragment extends FragmentBase implements OnItemClickListener, 
 							toast(getActivity().getString(R.string.network_is_not_available));
 							return;
 						}
-						VideoModel model = (VideoModel) v.getTag();
 						if (null == model || StringUtil.isNullOrEmpty(model.getFileName())
 								|| StringUtil.isNullOrEmpty(model.getVideoUrl())) {
 							return;
 						}
-						int status = ((InfoCenterActivity) getActivity()).startDownload(model.getFileName(),
-								model.getTitle(), model.getVideoUrl(), model.getPicture());
-						if (-1 == status) {
-							toast(getString(R.string.video_has_download));
-						} else if (-2 == status) {
-							toast(getString(R.string.video_has_download));
-						} else {
-							toast(getString(R.string.add_video_success));
-						}
+						startDownload(model);
+						Intent intent1 = new Intent(getActivity(), LocalDownActivity.class);
+						startActivity(intent1);
 					}
-
 				});
+			}
+		}
+	}
+
+	@Override
+	public void onClick(final View v) {
+
+		switch (v.getId()) {
+			case R.id.btn_local_download:
+				if (isAdded()) {
+					startActivity(new Intent(getActivity(), LocalDownActivity.class));
+				}
 				break;
 			default:
 				break;
 		}
 	}
 
-	private void refreashVideoList() {
-		List<FileStateModel> fileStateModels = DownLoadDao.getFileState();
-		if (null != mLeaderList && !mLeaderList.isEmpty() && null != fileStateModels) {
-			for (int i = 0; i < mLeaderList.size(); i++) {
-				VideoModel videoModel = mLeaderList.get(i);
-				videoModel.setHasDownload(0); // 初始化未下载
-				for (int j = 0; j < fileStateModels.size(); j++) {
-					FileStateModel fileStateModel = fileStateModels.get(j);
-					String url = fileStateModel.getUrl();
-					if (!StringUtil.isNullOrEmpty(url) && url.equals(videoModel.getVideoUrl())) {
-						videoModel.setHasDownload(1);
-					}
-				}
+	private void startDownload(VideoModel videoModel) {
+		try {
+			int status = mDownloadManager.addNewDownload(videoModel.getVideoUrl(), videoModel.getTitle(),
+					ServerAPIConstant.getDownloadPath() + videoModel.getFileName(), true, // 如果目标文件存在，接着未完成的部分继续下载。服务器不支持RANGE时将从新下载。
+					false, // 如果从请求返回信息中获取到文件名，下载完成后自动重命名。
+					null);
+			if (0 == status) {
+				toast(getString(R.string.video_has_download));
 			}
-			mAdapter.notifyDataSetChanged();
+		} catch (DbException e) {
+			LogUtils.e(e.getMessage(), e);
 		}
 	}
 }
